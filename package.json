@@ -50,6 +50,9 @@
         "yargs": "^17.7.1"
     },
     "dependencies": {
-        "buzzingpixel-mission-control-frontend-core": "file:../frontend-core"
+        "@heroicons/react": "^2.0.17",
+        "buzzingpixel-mission-control-frontend-core": "file:../frontend-core",
+        "react": "^18.2.0",
+        "react-router-dom": "^6.11.0"
     }
 }
