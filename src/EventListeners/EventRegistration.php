@@ -14,5 +14,10 @@ class EventRegistration
             Routing::class,
             Routing::class,
         );
+
+        $provider->addSubscriber(
+            RegisterMigrations::class,
+            RegisterMigrations::class,
+        );
     }
 }
