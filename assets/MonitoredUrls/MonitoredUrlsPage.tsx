@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { usePageTitle } from 'buzzingpixel-mission-control-frontend-core';
+import { PartialPageLoading, usePageTitle } from 'buzzingpixel-mission-control-frontend-core';
+import { useMonitoredUrlData } from './MonitoredUrlData';
+import MonitoredUrlTabs from './MonitoredUrlTabs';
 
 const MonitoredUrlsPage = (
     {
@@ -13,15 +15,51 @@ const MonitoredUrlsPage = (
         setPageNameState,
     ] = useState('');
 
-    if (isArchive && pageNameState !== 'Archived Projects') {
-        setPageNameState('Archived Projects');
-    } else if (!isArchive && pageNameState !== 'Projects') {
-        setPageNameState('Projects');
+    if (isArchive && pageNameState !== 'Archived URLs') {
+        setPageNameState('Archived URLs');
+    } else if (!isArchive && pageNameState !== 'Monitored URLs') {
+        setPageNameState('Monitored URLs');
     }
 
     usePageTitle(pageNameState);
 
-    return <>MonitoredUrlsPage</>;
+    const [
+        filterText,
+        setFilterText,
+    ] = useState<string>('');
+
+    const [
+        addUrlIsOpen,
+        setAddUrlIsOpen,
+    ] = useState<boolean>(false);
+
+    const {
+        status,
+        data,
+    } = useMonitoredUrlData(isArchive);
+
+    const Tabs = (
+        <MonitoredUrlTabs
+            activeHref={isArchive ? '/monitored-urls/archived' : '/monitored-urls'}
+            addUrlOnClick={() => { setAddUrlIsOpen(true); }}
+        />
+    );
+
+    if (status === 'loading') {
+        return (
+            <>
+                {Tabs}
+                <PartialPageLoading />
+            </>
+        );
+    }
+
+    return (
+        <>
+            {Tabs}
+            MonitoredUrlsPage
+        </>
+    );
 };
 
 MonitoredUrlsPage.defaultProps = {

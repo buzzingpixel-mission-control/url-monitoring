@@ -3,7 +3,8 @@
     "license": "proprietary",
     "require": {
         "php": "^8.2",
-        "buzzingpixel/mission-control-backend-core": "dev-main"
+        "buzzingpixel/mission-control-backend-core": "dev-main",
+        "buzzingpixel/mission-control-idp": "dev-main"
     },
     "require-dev": {
         "doctrine/coding-standard": "^11.0.0",
