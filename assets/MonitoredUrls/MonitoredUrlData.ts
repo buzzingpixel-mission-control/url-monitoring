@@ -22,16 +22,16 @@ export const useMonitoredUrlData = (archive = false) => {
     );
 };
 
-export const useAddProjectMutation = () => useApiMutation<unknown, AddMonitoredUrlFormValues>(
+export const useAddMonitoredUrlMutation = () => useApiMutation<unknown, AddMonitoredUrlFormValues>(
     {
         invalidateQueryKeysOnSuccess: [
-            'projects-list',
-            'projects-list-archived',
+            '/monitored-urls/list',
+            '/monitored-urls/list/archived',
         ],
         prepareApiParams: (
             data,
         ) => ({
-            uri: '/projects/add',
+            uri: '/monitored-urls/add',
             payload: data,
             method: RequestMethod.POST,
         }),

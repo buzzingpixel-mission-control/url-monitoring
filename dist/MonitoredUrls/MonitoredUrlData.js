@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useAddProjectMutation = exports.useMonitoredUrlData = void 0;
+exports.useAddMonitoredUrlMutation = exports.useMonitoredUrlData = void 0;
 var buzzingpixel_mission_control_frontend_core_1 = require("buzzingpixel-mission-control-frontend-core");
 var MonitoredUrls_1 = require("./MonitoredUrls");
 var useMonitoredUrlData = function (archive) {
@@ -14,15 +14,15 @@ var useMonitoredUrlData = function (archive) {
     });
 };
 exports.useMonitoredUrlData = useMonitoredUrlData;
-var useAddProjectMutation = function () { return (0, buzzingpixel_mission_control_frontend_core_1.useApiMutation)({
+var useAddMonitoredUrlMutation = function () { return (0, buzzingpixel_mission_control_frontend_core_1.useApiMutation)({
     invalidateQueryKeysOnSuccess: [
-        'projects-list',
-        'projects-list-archived',
+        '/monitored-urls/list',
+        '/monitored-urls/list/archived',
     ],
     prepareApiParams: function (data) { return ({
-        uri: '/projects/add',
+        uri: '/monitored-urls/add',
         payload: data,
         method: buzzingpixel_mission_control_frontend_core_1.RequestMethod.POST,
     }); },
 }); };
-exports.useAddProjectMutation = useAddProjectMutation;
+exports.useAddMonitoredUrlMutation = useAddMonitoredUrlMutation;

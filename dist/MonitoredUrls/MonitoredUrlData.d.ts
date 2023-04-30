@@ -212,4 +212,4 @@ export declare const useMonitoredUrlData: (archive?: boolean) => {
     remove: () => void;
     fetchStatus: import("@tanstack/query-core").FetchStatus;
 };
-export declare const useAddProjectMutation: () => import("@tanstack/react-query/src/types").UseMutationResult<unknown, import("buzzingpixel-mission-control-frontend-core/dist/Api/ApiError").default, AddMonitoredUrlFormValues>;
+export declare const useAddMonitoredUrlMutation: () => import("@tanstack/react-query/src/types").UseMutationResult<unknown, import("buzzingpixel-mission-control-frontend-core/dist/Api/ApiError").default, AddMonitoredUrlFormValues>;

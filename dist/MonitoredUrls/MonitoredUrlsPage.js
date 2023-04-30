@@ -30,6 +30,7 @@ var react_1 = __importStar(require("react"));
 var buzzingpixel_mission_control_frontend_core_1 = require("buzzingpixel-mission-control-frontend-core");
 var MonitoredUrlData_1 = require("./MonitoredUrlData");
 var MonitoredUrlTabs_1 = __importDefault(require("./MonitoredUrlTabs"));
+var AddMonitoredUrlOverlay_1 = __importDefault(require("./AddMonitoredUrlOverlay"));
 var MonitoredUrlsPage = function (_a) {
     var _b = _a.isArchive, isArchive = _b === void 0 ? false : _b;
     var _c = (0, react_1.useState)(''), pageNameState = _c[0], setPageNameState = _c[1];
@@ -49,7 +50,14 @@ var MonitoredUrlsPage = function (_a) {
             Tabs,
             react_1.default.createElement(buzzingpixel_mission_control_frontend_core_1.PartialPageLoading, null)));
     }
+    var portals = function () {
+        if (addUrlIsOpen) {
+            return (0, buzzingpixel_mission_control_frontend_core_1.createPortal)(react_1.default.createElement(AddMonitoredUrlOverlay_1.default, { setIsOpen: setAddUrlIsOpen }));
+        }
+        return null;
+    };
     return (react_1.default.createElement(react_1.default.Fragment, null,
+        portals(),
         Tabs,
         "MonitoredUrlsPage"));
 };

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { PartialPageLoading, usePageTitle } from 'buzzingpixel-mission-control-frontend-core';
+import { createPortal, PartialPageLoading, usePageTitle } from 'buzzingpixel-mission-control-frontend-core';
 import { useMonitoredUrlData } from './MonitoredUrlData';
 import MonitoredUrlTabs from './MonitoredUrlTabs';
+import AddMonitoredUrlOverlay from './AddMonitoredUrlOverlay';
 
 const MonitoredUrlsPage = (
     {
@@ -54,8 +55,17 @@ const MonitoredUrlsPage = (
         );
     }
 
+    const portals = () => {
+        if (addUrlIsOpen) {
+            return createPortal(<AddMonitoredUrlOverlay setIsOpen={setAddUrlIsOpen} />);
+        }
+
+        return null;
+    };
+
     return (
         <>
+            {portals()}
             {Tabs}
             MonitoredUrlsPage
         </>

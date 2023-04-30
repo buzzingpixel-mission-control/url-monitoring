@@ -1,6 +1,6 @@
 type AddMonitoredUrlFormValues = {
     title: string;
     url: string;
-    projectId: string;
+    project_id: string;
 };
 export default AddMonitoredUrlFormValues;
