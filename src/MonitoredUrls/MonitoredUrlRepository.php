@@ -22,23 +22,27 @@ readonly class MonitoredUrlRepository
 
     public function createMonitoredUrl(NewMonitoredUrl $entity): ActionResult
     {
-        $entity->with(slug: Slug::fromNative(
-            $this->slugify->slugify($entity->title->toNative()),
-        ));
-
         return $this->createMonitoredUrl->create(
-            MonitoredUrlRecord::fromNewEntity($entity),
+            MonitoredUrlRecord::fromNewEntity(
+                $entity->with(slug: Slug::fromNative(
+                    $this->slugify->slugify(
+                        $entity->title->toNative(),
+                    ),
+                )),
+            ),
         );
     }
 
     public function saveMonitoredUrl(MonitoredUrl $entity): ActionResult
     {
-        $entity->with(slug: Slug::fromNative(
-            $this->slugify->slugify($entity->title->toNative()),
-        ));
-
         return $this->saveMonitoredUrl->save(
-            MonitoredUrlRecord::fromEntity($entity),
+            MonitoredUrlRecord::fromEntity(
+                $entity->with(slug: Slug::fromNative(
+                    $this->slugify->slugify(
+                        $entity->title->toNative(),
+                    ),
+                )),
+            ),
         );
     }
 }

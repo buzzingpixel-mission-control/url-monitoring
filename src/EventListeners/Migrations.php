@@ -7,7 +7,7 @@ namespace MissionControlUrlMonitoring\EventListeners;
 use MissionControlBackend\Persistence\Migrations\AddMigrationPathsEvent;
 use MissionControlUrlMonitoring\MonitoredUrlSrc;
 
-class RegisterMigrations
+class Migrations
 {
     public function onAddMigrationPaths(AddMigrationPathsEvent $event): void
     {

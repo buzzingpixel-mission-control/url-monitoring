@@ -79,7 +79,7 @@ class MonitoredUrlRecord extends Record
 
     public string $status = '';
 
-    public string $checked_at = '';
+    public string|null $checked_at = null;
 
     public string $created_at = '';
 }

@@ -36,14 +36,15 @@ class MonitoredUrlsTable
             'slug',
             'string',
         )->addColumn(
-            'url ',
+            'url',
             'string',
         )->addColumn(
-            'status ',
+            'status',
             'string',
         )->addColumn(
             'checked_at',
             'datetime',
+            ['null' => true],
         )->addColumn(
             'created_at',
             'datetime',

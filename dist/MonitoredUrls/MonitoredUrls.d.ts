@@ -1,5 +1,6 @@
 import { z } from 'zod';
 export declare enum MonitoredUrlStatus {
+    unknown = "",
     up = "up",
     pendingDown = "pendingDown",
     down = "down"

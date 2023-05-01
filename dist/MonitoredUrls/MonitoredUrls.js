@@ -15,6 +15,7 @@ exports.transformMonitoredUrls = exports.transformMonitoredUrl = exports.Monitor
 var zod_1 = require("zod");
 var MonitoredUrlStatus;
 (function (MonitoredUrlStatus) {
+    MonitoredUrlStatus["unknown"] = "";
     MonitoredUrlStatus["up"] = "up";
     MonitoredUrlStatus["pendingDown"] = "pendingDown";
     MonitoredUrlStatus["down"] = "down";

@@ -16,8 +16,8 @@ class EventRegistration
         );
 
         $provider->addSubscriber(
-            RegisterMigrations::class,
-            RegisterMigrations::class,
+            Migrations::class,
+            Migrations::class,
         );
     }
 }

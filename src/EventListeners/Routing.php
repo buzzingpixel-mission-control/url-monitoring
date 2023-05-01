@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MissionControlUrlMonitoring\EventListeners;
 
 use MissionControlBackend\Http\ApiApplyRoutesEvent;
+use MissionControlUrlMonitoring\MonitoredUrls\AddEdit\PostAddMonitoredUrlAction;
 use MissionControlUrlMonitoring\MonitoredUrls\GetMonitoredUrlsListAction;
 use MissionControlUrlMonitoring\MonitoredUrls\GetMonitoredUrlsListArchivedAction;
 
@@ -14,5 +15,6 @@ class Routing
     {
         GetMonitoredUrlsListAction::registerRoute($event);
         GetMonitoredUrlsListArchivedAction::registerRoute($event);
+        PostAddMonitoredUrlAction::registerRoute($event);
     }
 }

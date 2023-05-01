@@ -18,10 +18,10 @@ class NewMonitoredUrl
 
     public function __construct(
         public Title $title,
-        public Slug $slug,
         public Url $url,
-        public IsActive $isActive = new IsActive(true),
         public ProjectId|EmptyString $projectId = new EmptyString(),
+        public IsActive $isActive = new IsActive(true),
+        public Slug $slug = new Slug(''),
     ) {
     }
 }
