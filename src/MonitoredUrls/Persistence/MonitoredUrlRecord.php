@@ -67,7 +67,7 @@ class MonitoredUrlRecord extends Record
     /** Primary key */
     public string $id = '';
 
-    public string $project_id = '';
+    public string|null $project_id = null;
 
     public bool $is_active = true;
 

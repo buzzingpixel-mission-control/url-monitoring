@@ -28,9 +28,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var buzzingpixel_mission_control_frontend_core_1 = require("buzzingpixel-mission-control-frontend-core");
+var solid_1 = require("@heroicons/react/20/solid");
 var MonitoredUrlData_1 = require("./MonitoredUrlData");
 var MonitoredUrlTabs_1 = __importDefault(require("./MonitoredUrlTabs"));
 var AddMonitoredUrlOverlay_1 = __importDefault(require("./AddMonitoredUrlOverlay"));
+var MonitoredUrls_1 = require("./MonitoredUrls");
 var MonitoredUrlsPage = function (_a) {
     var _b = _a.isArchive, isArchive = _b === void 0 ? false : _b;
     var _c = (0, react_1.useState)(''), pageNameState = _c[0], setPageNameState = _c[1];
@@ -56,6 +58,24 @@ var MonitoredUrlsPage = function (_a) {
         }
         return null;
     };
+    var urls = (0, MonitoredUrls_1.transformMonitoredUrls)(data);
+    if (urls.length < 1) {
+        if (isArchive) {
+            return (react_1.default.createElement(react_1.default.Fragment, null,
+                portals(),
+                Tabs,
+                react_1.default.createElement(buzzingpixel_mission_control_frontend_core_1.NoResultsAddItem, { icon: react_1.default.createElement(solid_1.GlobeAltIcon, null), headline: "No archived urls" })));
+        }
+        return (react_1.default.createElement(react_1.default.Fragment, null,
+            portals(),
+            Tabs,
+            react_1.default.createElement(buzzingpixel_mission_control_frontend_core_1.NoResultsAddItem, { icon: react_1.default.createElement(solid_1.GlobeAltIcon, null), headline: "No urls", content: "Would you like to create a monitored URL?", actionText: "Add New URL", actionUsesPlusIcon: true, actionButtonOnClick: function () { setAddUrlIsOpen(true); } })));
+    }
+    if (filterText !== '') {
+        urls = urls.filter(function (url) { return url.title.toLowerCase().indexOf(filterText.toLowerCase()) > -1
+            || url.slug.toLowerCase().indexOf(filterText.toLowerCase()) > -1
+            || url.url.toLowerCase().indexOf(filterText.toLowerCase()) > -1; });
+    }
     return (react_1.default.createElement(react_1.default.Fragment, null,
         portals(),
         Tabs,

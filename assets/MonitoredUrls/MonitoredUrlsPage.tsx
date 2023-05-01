@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
-import { createPortal, PartialPageLoading, usePageTitle } from 'buzzingpixel-mission-control-frontend-core';
+import {
+    createPortal,
+    NoResultsAddItem,
+    PartialPageLoading,
+    usePageTitle,
+} from 'buzzingpixel-mission-control-frontend-core';
+import { GlobeAltIcon } from '@heroicons/react/20/solid';
 import { useMonitoredUrlData } from './MonitoredUrlData';
 import MonitoredUrlTabs from './MonitoredUrlTabs';
 import AddMonitoredUrlOverlay from './AddMonitoredUrlOverlay';
+import { transformMonitoredUrls } from './MonitoredUrls';
 
 const MonitoredUrlsPage = (
     {
@@ -62,6 +69,44 @@ const MonitoredUrlsPage = (
 
         return null;
     };
+
+    let urls = transformMonitoredUrls(data);
+
+    if (urls.length < 1) {
+        if (isArchive) {
+            return (
+                <>
+                    {portals()}
+                    {Tabs}
+                    <NoResultsAddItem
+                        icon={<GlobeAltIcon />}
+                        headline="No archived urls"
+                    />
+                </>
+            );
+        }
+
+        return (
+            <>
+                {portals()}
+                {Tabs}
+                <NoResultsAddItem
+                    icon={<GlobeAltIcon />}
+                    headline="No urls"
+                    content="Would you like to create a monitored URL?"
+                    actionText="Add New URL"
+                    actionUsesPlusIcon
+                    actionButtonOnClick={() => { setAddUrlIsOpen(true); }}
+                />
+            </>
+        );
+    }
+
+    if (filterText !== '') {
+        urls = urls.filter((url) => url.title.toLowerCase().indexOf(filterText.toLowerCase()) > -1
+            || url.slug.toLowerCase().indexOf(filterText.toLowerCase()) > -1
+            || url.url.toLowerCase().indexOf(filterText.toLowerCase()) > -1);
+    }
 
     return (
         <>

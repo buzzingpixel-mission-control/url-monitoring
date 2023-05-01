@@ -10,6 +10,7 @@ use MissionControlBackend\Http\JsonResponse\JsonResponder;
 use MissionControlIdp\Authorize\ResourceServerMiddlewareWrapper;
 use MissionControlUrlMonitoring\MonitoredUrls\MonitoredUrlRepository;
 use MissionControlUrlMonitoring\MonitoredUrls\NewMonitoredUrl;
+use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\NullValue;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\ProjectId;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Title;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Url;
@@ -41,6 +42,14 @@ readonly class PostAddMonitoredUrlAction
             is_array($rawPostData) ? $rawPostData : [],
         );
 
+        if ($postData->projectId->toNative() === '') {
+            $projectId = new NullValue();
+        } else {
+            $projectId = ProjectId::fromNative(
+                $postData->projectId->toNative(),
+            );
+        }
+
         return $this->jsonResponder->respond(
             $this->responseFactory->createResponse(
                 $this->repository->createMonitoredUrl(
@@ -51,9 +60,7 @@ readonly class PostAddMonitoredUrlAction
                         Url::fromNative(
                             $postData->url->toNative(),
                         ),
-                        ProjectId::fromNative(
-                            $postData->projectId->toNative(),
-                        ),
+                        $projectId,
                     ),
                 ),
             ),

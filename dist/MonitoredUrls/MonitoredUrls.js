@@ -22,13 +22,13 @@ var MonitoredUrlStatus;
 })(MonitoredUrlStatus = exports.MonitoredUrlStatus || (exports.MonitoredUrlStatus = {}));
 exports.MonitoredUrlSchema = zod_1.z.object({
     id: zod_1.z.string().min(1),
-    projectId: zod_1.z.string().min(1),
+    projectId: zod_1.z.string().nullable(),
     isActive: zod_1.z.boolean(),
     title: zod_1.z.string().min(1),
     slug: zod_1.z.string().min(1),
     url: zod_1.z.string().min(1),
     status: zod_1.z.nativeEnum(MonitoredUrlStatus),
-    checkedAt: zod_1.z.string(),
+    checkedAt: zod_1.z.string().nullable(),
     createdAt: zod_1.z.string(),
 });
 exports.MonitoredUrlsSchema = zod_1.z.array(exports.MonitoredUrlSchema);

@@ -7,13 +7,13 @@ export declare enum MonitoredUrlStatus {
 }
 export declare const MonitoredUrlSchema: z.ZodObject<{
     id: z.ZodString;
-    projectId: z.ZodString;
+    projectId: z.ZodNullable<z.ZodString>;
     isActive: z.ZodBoolean;
     title: z.ZodString;
     slug: z.ZodString;
     url: z.ZodString;
     status: z.ZodNativeEnum<typeof MonitoredUrlStatus>;
-    checkedAt: z.ZodString;
+    checkedAt: z.ZodNullable<z.ZodString>;
     createdAt: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     id?: string;
@@ -39,13 +39,13 @@ export declare const MonitoredUrlSchema: z.ZodObject<{
 export type MonitoredUrl = z.infer<typeof MonitoredUrlSchema>;
 export declare const MonitoredUrlsSchema: z.ZodArray<z.ZodObject<{
     id: z.ZodString;
-    projectId: z.ZodString;
+    projectId: z.ZodNullable<z.ZodString>;
     isActive: z.ZodBoolean;
     title: z.ZodString;
     slug: z.ZodString;
     url: z.ZodString;
     status: z.ZodNativeEnum<typeof MonitoredUrlStatus>;
-    checkedAt: z.ZodString;
+    checkedAt: z.ZodNullable<z.ZodString>;
     createdAt: z.ZodString;
 }, "strip", z.ZodTypeAny, {
     id?: string;

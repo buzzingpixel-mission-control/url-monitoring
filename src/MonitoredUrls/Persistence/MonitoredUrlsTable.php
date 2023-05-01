@@ -25,6 +25,7 @@ class MonitoredUrlsTable
         )->addColumn(
             'project_id',
             'uuid',
+            ['null' => true],
         )->addColumn(
             'is_active',
             'boolean',

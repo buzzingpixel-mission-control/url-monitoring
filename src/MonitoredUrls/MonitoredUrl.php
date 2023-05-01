@@ -8,7 +8,6 @@ use MissionControlUrlMonitoring\MonitoredUrls\AddEdit\ValueObjects\Url;
 use MissionControlUrlMonitoring\MonitoredUrls\Persistence\MonitoredUrlRecord;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\CheckedAt;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\CreatedAt;
-use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\EmptyString;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Id;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\IsActive;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\NullValue;
@@ -26,10 +25,16 @@ class MonitoredUrl
 
     public static function fromRecord(MonitoredUrlRecord $record): self
     {
-        if ($record->project_id === '') {
-            $projectId = new EmptyString();
+        if ($record->project_id === null) {
+            $projectId = new NullValue();
         } else {
             $projectId = ProjectId::fromNative($record->project_id);
+        }
+
+        if ($record->checked_at === null) {
+            $checkedAt = new NullValue();
+        } else {
+            $checkedAt = CheckedAt::fromNative($record->checked_at);
         }
 
         return new self(
@@ -40,14 +45,14 @@ class MonitoredUrl
             Slug::fromNative($record->slug),
             Url::fromNative($record->url),
             Status::from($record->status),
-            CheckedAt::fromNative($record->checked_at),
+            $checkedAt,
             CreatedAt::fromNative($record->created_at),
         );
     }
 
     public function __construct(
         public Id $id,
-        public ProjectId|EmptyString $projectId,
+        public ProjectId|NullValue $projectId,
         public IsActive $isActive,
         public Title $title,
         public Slug $slug,

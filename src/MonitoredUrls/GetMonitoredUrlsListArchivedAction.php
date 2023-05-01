@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace MissionControlUrlMonitoring\MonitoredUrls;
 
 use MissionControlBackend\Http\ApplyRoutesEvent;
+use MissionControlBackend\Persistence\Sort;
 use MissionControlIdp\Authorize\ResourceServerMiddlewareWrapper;
+use MissionControlUrlMonitoring\MonitoredUrls\Persistence\FindMonitoredUrlParameters;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -21,17 +23,28 @@ class GetMonitoredUrlsListArchivedAction
             ->add(ResourceServerMiddlewareWrapper::class);
     }
 
+    public function __construct(private MonitoredUrlRepository $repository)
+    {
+    }
+
     public function __invoke(
         ServerRequestInterface $request,
         ResponseInterface $response,
     ): ResponseInterface {
+        $items = $this->repository->findAll(
+            (new FindMonitoredUrlParameters())
+                ->withIsActive(false)
+                ->withOrderBy('title')
+                ->withSort(Sort::ASC),
+        );
+
         $response = $response->withHeader(
             'Content-type',
             'application/json',
         );
 
         $response->getBody()->write((string) json_encode(
-            [],
+            $items->asArray(),
             JSON_PRETTY_PRINT,
         ));
 

@@ -9,13 +9,13 @@ export enum MonitoredUrlStatus {
 
 export const MonitoredUrlSchema = z.object({
     id: z.string().min(1),
-    projectId: z.string().min(1),
+    projectId: z.string().nullable(),
     isActive: z.boolean(),
     title: z.string().min(1),
     slug: z.string().min(1),
     url: z.string().min(1),
     status: z.nativeEnum(MonitoredUrlStatus),
-    checkedAt: z.string(),
+    checkedAt: z.string().nullable(),
     createdAt: z.string(),
 });
 

@@ -46,7 +46,7 @@ readonly class FindMonitoredUrls
 
         $results = $statement->fetchAll(
             PDO::FETCH_CLASS,
-            MonitoredUrlRecordCollection::class,
+            MonitoredUrlRecord::class,
         );
 
         return new MonitoredUrlRecordCollection(
