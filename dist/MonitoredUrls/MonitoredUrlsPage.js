@@ -33,6 +33,7 @@ var MonitoredUrlData_1 = require("./MonitoredUrlData");
 var MonitoredUrlTabs_1 = __importDefault(require("./MonitoredUrlTabs"));
 var AddMonitoredUrlOverlay_1 = __importDefault(require("./AddMonitoredUrlOverlay"));
 var MonitoredUrls_1 = require("./MonitoredUrls");
+var MonitoredUrlList_1 = __importDefault(require("./MonitoredUrlList"));
 var MonitoredUrlsPage = function (_a) {
     var _b = _a.isArchive, isArchive = _b === void 0 ? false : _b;
     var _c = (0, react_1.useState)(''), pageNameState = _c[0], setPageNameState = _c[1];
@@ -79,7 +80,12 @@ var MonitoredUrlsPage = function (_a) {
     return (react_1.default.createElement(react_1.default.Fragment, null,
         portals(),
         Tabs,
-        "MonitoredUrlsPage"));
+        react_1.default.createElement("div", null,
+            react_1.default.createElement("div", { className: "mb-4" },
+                react_1.default.createElement("input", { type: "text", name: "filter", id: "filter", className: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6", placeholder: "Filter results", value: filterText, onChange: function (e) {
+                        setFilterText(e.target.value);
+                    } })),
+            react_1.default.createElement(MonitoredUrlList_1.default, { isArchive: isArchive, items: urls }))));
 };
 MonitoredUrlsPage.defaultProps = {
     isArchive: false,

@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.transformMonitoredUrls = exports.transformMonitoredUrl = exports.MonitoredUrlsSchema = exports.MonitoredUrlSchema = exports.MonitoredUrlStatus = void 0;
+exports.transformMonitoredUrls = exports.transformMonitoredUrl = exports.MonitoredUrlsSchema = exports.MonitoredUrlSchema = exports.mapMonitoredUrlStatusToReadable = exports.MonitoredUrlStatus = void 0;
 var zod_1 = require("zod");
 var MonitoredUrlStatus;
 (function (MonitoredUrlStatus) {
@@ -20,6 +20,19 @@ var MonitoredUrlStatus;
     MonitoredUrlStatus["pendingDown"] = "pendingDown";
     MonitoredUrlStatus["down"] = "down";
 })(MonitoredUrlStatus = exports.MonitoredUrlStatus || (exports.MonitoredUrlStatus = {}));
+var mapMonitoredUrlStatusToReadable = function (status) {
+    switch (status) {
+        case MonitoredUrlStatus.up:
+            return 'Up';
+        case MonitoredUrlStatus.pendingDown:
+            return 'Pending Down';
+        case MonitoredUrlStatus.down:
+            return 'Down';
+        default:
+            return 'Unknown';
+    }
+};
+exports.mapMonitoredUrlStatusToReadable = mapMonitoredUrlStatusToReadable;
 exports.MonitoredUrlSchema = zod_1.z.object({
     id: zod_1.z.string().min(1),
     projectId: zod_1.z.string().nullable(),
@@ -32,7 +45,7 @@ exports.MonitoredUrlSchema = zod_1.z.object({
     createdAt: zod_1.z.string(),
 });
 exports.MonitoredUrlsSchema = zod_1.z.array(exports.MonitoredUrlSchema);
-var transformMonitoredUrl = function (monitoredUrl) { return (__assign(__assign({}, monitoredUrl), { href: "/monitored-urls/".concat(monitoredUrl.slug) })); };
+var transformMonitoredUrl = function (monitoredUrl) { return (__assign(__assign({}, monitoredUrl), { href: "/monitored-urls/".concat(monitoredUrl.slug), createdAtDate: new Date(monitoredUrl.createdAt), statusReadable: (0, exports.mapMonitoredUrlStatusToReadable)(monitoredUrl.status), activeOrArchivedText: monitoredUrl.isActive ? 'Active' : 'Archived' })); };
 exports.transformMonitoredUrl = transformMonitoredUrl;
 var transformMonitoredUrls = function (monitoredUrls) { return monitoredUrls.map(function (monitoredUrl) { return (0, exports.transformMonitoredUrl)(monitoredUrl); }); };
 exports.transformMonitoredUrls = transformMonitoredUrls;

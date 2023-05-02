@@ -5,6 +5,7 @@ export declare enum MonitoredUrlStatus {
     pendingDown = "pendingDown",
     down = "down"
 }
+export declare const mapMonitoredUrlStatusToReadable: (status: MonitoredUrlStatus) => "Up" | "Pending Down" | "Down" | "Unknown";
 export declare const MonitoredUrlSchema: z.ZodObject<{
     id: z.ZodString;
     projectId: z.ZodNullable<z.ZodString>;
@@ -71,6 +72,9 @@ export declare const MonitoredUrlsSchema: z.ZodArray<z.ZodObject<{
 export type MonitoredUrls = z.infer<typeof MonitoredUrlsSchema>;
 export type MonitoredUrlWithViewOptions = MonitoredUrl & {
     href: string;
+    createdAtDate: Date;
+    statusReadable: string;
+    activeOrArchivedText: string;
 };
 export type MonitoredUrlsWithViewOptions = Array<MonitoredUrlWithViewOptions>;
 export declare const transformMonitoredUrl: (monitoredUrl: MonitoredUrl) => MonitoredUrlWithViewOptions;
