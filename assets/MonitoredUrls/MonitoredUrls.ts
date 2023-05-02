@@ -9,20 +9,20 @@ export enum MonitoredUrlStatus {
 
 export const monitoredUrlStatusList = [
     {
-        text: 'All',
-        status: '',
+        name: 'All',
+        value: '',
     },
     {
-        text: 'Up',
-        status: 'up',
+        name: 'Up',
+        value: 'up',
     },
     {
-        text: 'Pending Down',
-        status: 'pendingDown',
+        name: 'Pending Down',
+        value: 'pendingDown',
     },
     {
-        text: 'Down',
-        status: 'down',
+        name: 'Down',
+        value: 'down',
     },
 ];
 

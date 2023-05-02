@@ -6,12 +6,13 @@ import {
     usePageTitle,
 } from 'buzzingpixel-mission-control-frontend-core';
 import { GlobeAltIcon } from '@heroicons/react/20/solid';
-import { useSearchParams } from 'react-router-dom';
 import { useMonitoredUrlData } from './MonitoredUrlData';
 import MonitoredUrlTabs from './MonitoredUrlTabs';
 import AddMonitoredUrlOverlay from './AddMonitoredUrlOverlay';
 import { monitoredUrlStatusList, transformMonitoredUrls } from './MonitoredUrls';
 import MonitoredUrlList from './MonitoredUrlList';
+import useQuickStatusFilter from './useQuickStatusFilter';
+import useFilterText from './useFilterText';
 
 function classNames (...classes) {
     return classes.filter(Boolean).join(' ');
@@ -30,11 +31,9 @@ const MonitoredUrlsPage = (
     ] = useState('');
 
     const [
-        searchParams,
-        setSearchParams,
-    ] = useSearchParams();
-
-    const quickStatusFilter = searchParams.get('status') ?? '';
+        quickStatusFilter,
+        setQuickStatusFilter,
+    ] = useQuickStatusFilter();
 
     if (isArchive && pageNameState !== 'Archived URLs') {
         setPageNameState('Archived URLs');
@@ -44,11 +43,10 @@ const MonitoredUrlsPage = (
 
     usePageTitle(pageNameState);
 
-    // TODO: Update this to use the query params
     const [
         filterText,
         setFilterText,
-    ] = useState<string>('');
+    ] = useFilterText();
 
     const [
         addUrlIsOpen,
@@ -123,7 +121,9 @@ const MonitoredUrlsPage = (
     }
 
     if (quickStatusFilter !== '') {
-        urls = urls.filter((url) => url.status === quickStatusFilter);
+        urls = urls.filter((
+            url,
+        ) => url.status === quickStatusFilter);
     }
 
     return (
@@ -145,30 +145,22 @@ const MonitoredUrlsPage = (
                                     className="block w-full rounded-md border-gray-300 focus:border-cyan-500 focus:ring-cyan-500"
                                     defaultValue={quickStatusFilter}
                                     onChange={(e) => {
-                                        setSearchParams((params) => {
-                                            if (!e.target.value) {
-                                                params.delete('status');
-                                            } else {
-                                                params.set('status', e.target.value);
-                                            }
-
-                                            return params;
-                                        });
+                                        setQuickStatusFilter(e.target.value);
                                     }}
                                 >
                                     {monitoredUrlStatusList.map((filterStatus) => (
-                                        <option key={filterStatus.status} value={filterStatus.status}>{filterStatus.text}</option>
+                                        <option key={filterStatus.value} value={filterStatus.value}>{filterStatus.name}</option>
                                     ))}
                                 </select>
                             </div>
                             <div className="hidden sm:block">
                                 <nav className="flex space-x-4" aria-label="Status Filter">
                                     {monitoredUrlStatusList.map((filterStatus) => {
-                                        const isCurrent = filterStatus.status === quickStatusFilter;
+                                        const isCurrent = filterStatus.value === quickStatusFilter;
 
                                         return (
                                             <a
-                                                key={filterStatus.status}
+                                                key={filterStatus.value}
                                                 href="#"
                                                 className={classNames(
                                                     isCurrent ? 'bg-cyan-600 text-white' : 'bg-gray-100 text-gray-500 hover:text-gray-700',
@@ -177,19 +169,10 @@ const MonitoredUrlsPage = (
                                                 aria-current={isCurrent ? 'page' : undefined}
                                                 onClick={(e) => {
                                                     e.preventDefault();
-
-                                                    setSearchParams((params) => {
-                                                        if (!filterStatus.status) {
-                                                            params.delete('status');
-                                                        } else {
-                                                            params.set('status', filterStatus.status);
-                                                        }
-
-                                                        return params;
-                                                    });
+                                                    setQuickStatusFilter(filterStatus.value);
                                                 }}
                                             >
-                                                {filterStatus.text}
+                                                {filterStatus.name}
                                             </a>
                                         );
                                     })}

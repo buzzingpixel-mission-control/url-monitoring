@@ -6,8 +6,8 @@ export declare enum MonitoredUrlStatus {
     down = "down"
 }
 export declare const monitoredUrlStatusList: {
-    text: string;
-    status: string;
+    name: string;
+    value: string;
 }[];
 export declare const mapMonitoredUrlStatusToReadable: (status: MonitoredUrlStatus) => "Up" | "Pending Down" | "Down" | "Unknown";
 export declare const MonitoredUrlSchema: z.ZodObject<{
