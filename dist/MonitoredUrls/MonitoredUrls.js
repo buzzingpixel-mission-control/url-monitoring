@@ -11,7 +11,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.transformMonitoredUrls = exports.transformMonitoredUrl = exports.MonitoredUrlsSchema = exports.MonitoredUrlSchema = exports.mapMonitoredUrlStatusToReadable = exports.MonitoredUrlStatus = void 0;
+exports.transformMonitoredUrls = exports.transformMonitoredUrl = exports.MonitoredUrlsSchema = exports.MonitoredUrlSchema = exports.mapMonitoredUrlStatusToReadable = exports.monitoredUrlStatusList = exports.MonitoredUrlStatus = void 0;
 var zod_1 = require("zod");
 var MonitoredUrlStatus;
 (function (MonitoredUrlStatus) {
@@ -20,6 +20,24 @@ var MonitoredUrlStatus;
     MonitoredUrlStatus["pendingDown"] = "pendingDown";
     MonitoredUrlStatus["down"] = "down";
 })(MonitoredUrlStatus = exports.MonitoredUrlStatus || (exports.MonitoredUrlStatus = {}));
+exports.monitoredUrlStatusList = [
+    {
+        text: 'All',
+        status: '',
+    },
+    {
+        text: 'Up',
+        status: 'up',
+    },
+    {
+        text: 'Pending Down',
+        status: 'pendingDown',
+    },
+    {
+        text: 'Down',
+        status: 'down',
+    },
+];
 var mapMonitoredUrlStatusToReadable = function (status) {
     switch (status) {
         case MonitoredUrlStatus.up:

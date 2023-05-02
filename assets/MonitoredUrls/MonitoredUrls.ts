@@ -7,6 +7,25 @@ export enum MonitoredUrlStatus {
     down = 'down',
 }
 
+export const monitoredUrlStatusList = [
+    {
+        text: 'All',
+        status: '',
+    },
+    {
+        text: 'Up',
+        status: 'up',
+    },
+    {
+        text: 'Pending Down',
+        status: 'pendingDown',
+    },
+    {
+        text: 'Down',
+        status: 'down',
+    },
+];
+
 export const mapMonitoredUrlStatusToReadable = (status: MonitoredUrlStatus) => {
     switch (status) {
         case MonitoredUrlStatus.up:
