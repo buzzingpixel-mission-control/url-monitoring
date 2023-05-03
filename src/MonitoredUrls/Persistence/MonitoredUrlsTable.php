@@ -49,6 +49,13 @@ class MonitoredUrlsTable
         )->addColumn(
             'created_at',
             'datetime',
-        );
+        )
+            ->addIndex(['project_id'])
+            ->addIndex(['title'])
+            ->addIndex(['slug'])
+            ->addIndex(['url'])
+            ->addIndex(['status'])
+            ->addIndex(['checked_at'])
+            ->addIndex(['created_at']);
     }
 }
