@@ -31,6 +31,7 @@ var react_router_dom_1 = require("react-router-dom");
 var react_2 = require("@headlessui/react");
 var solid_1 = require("@heroicons/react/20/solid");
 var MonitoredUrlListItemEditor_1 = __importDefault(require("./MonitoredUrlListItemEditor"));
+var MonitoredUrlData_1 = require("./MonitoredUrlData");
 var archiveActiveStatuses = {
     Active: 'text-green-700 bg-green-50 ring-green-600/20',
     Archived: 'text-yellow-800 bg-yellow-50 ring-yellow-600/20',
@@ -51,13 +52,7 @@ function classNames() {
 var MonitoredUrlListItem = function (_a) {
     var isArchive = _a.isArchive, item = _a.item;
     var _b = (0, react_1.useState)(false), editIsOpen = _b[0], setEditIsOpen = _b[1];
-    // const archiveMutation = useArchiveMonitoredMutation(
-    //     item.id,
-    //     isArchive,
-    // );
-    var archiveMutation = {
-        mutate: function (temp) { },
-    };
+    var archiveMutation = (0, MonitoredUrlData_1.useArchiveMonitoredUrlMutation)(item.id, isArchive);
     return (react_1.default.createElement("li", null,
         react_1.default.createElement("div", { className: "sm:flex items-center justify-between gap-x-6 py-5" },
             react_1.default.createElement("div", { className: "min-w-0" },

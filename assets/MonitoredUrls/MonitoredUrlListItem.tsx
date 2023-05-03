@@ -4,6 +4,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { MonitoredUrlWithViewOptions } from './MonitoredUrls';
 import MonitoredUrlListItemEditor from './MonitoredUrlListItemEditor';
+import { useArchiveMonitoredUrlMutation } from './MonitoredUrlData';
 
 const archiveActiveStatuses = {
     Active: 'text-green-700 bg-green-50 ring-green-600/20',
@@ -35,14 +36,10 @@ const MonitoredUrlListItem = (
         setEditIsOpen,
     ] = useState<boolean>(false);
 
-    // const archiveMutation = useArchiveMonitoredMutation(
-    //     item.id,
-    //     isArchive,
-    // );
-
-    const archiveMutation = {
-        mutate: (temp: undefined) => {},
-    };
+    const archiveMutation = useArchiveMonitoredUrlMutation(
+        item.id,
+        isArchive,
+    );
 
     return (
         <li>

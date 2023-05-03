@@ -9,22 +9,18 @@ use MissionControlBackend\Http\ApplyRoutesEvent;
 use MissionControlBackend\Http\JsonResponse\JsonResponder;
 use MissionControlIdp\Authorize\ResourceServerMiddlewareWrapper;
 use MissionControlUrlMonitoring\MonitoredUrls\MonitoredUrlRepository;
-use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\NullValue;
-use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\ProjectId;
-use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Title;
-use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Url;
+use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\IsActive;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use function assert;
-use function is_array;
 use function is_string;
 
-readonly class PatchEditMonitoredUrlAction
+readonly class PatchUnArchiveMonitoredUrlAction
 {
     public static function registerRoute(ApplyRoutesEvent $event): void
     {
-        $event->patch('/monitored-urls/edit/{id}', self::class)
+        $event->patch('/monitored-urls/un-archive/{id}', self::class)
             ->add(ResourceServerMiddlewareWrapper::class);
     }
 
@@ -45,28 +41,12 @@ readonly class PatchEditMonitoredUrlAction
 
         $url = $this->repository->findOneById($id);
 
-        $rawPostData = $request->getParsedBody();
-
-        $postData = PostedDataAdd::fromRawPostData(
-            is_array($rawPostData) ? $rawPostData : [],
-        );
-
-        if ($postData->projectId->toNative() === '') {
-            $projectId = new NullValue();
-        } else {
-            $projectId = ProjectId::fromNative(
-                $postData->projectId->toNative(),
-            );
-        }
-
         return $this->jsonResponder->respond(
             $this->responseFactory->createResponse(
                 $this->repository->saveMonitoredUrl(
-                    $url->with(title: Title::fromNative(
-                        $postData->title->toNative(),
-                    ))->with(url: Url::fromNative(
-                        $postData->url->toNative(),
-                    ))->with(projectId: $projectId),
+                    $url->with(isActive: IsActive::fromNative(
+                        true,
+                    )),
                 ),
             ),
         );

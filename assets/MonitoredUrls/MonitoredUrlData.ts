@@ -131,3 +131,71 @@ export const useEditMonitoredUrlMutation = (urlId: string) => {
         },
     );
 };
+
+export const useArchiveMonitoredUrlMutation = (
+    urlId: string,
+    isArchive: boolean,
+) => {
+    const queryClient = useQueryClient();
+
+    return useApiMutation(
+        {
+            invalidateQueryKeysOnSuccess: [
+                '/monitored-urls/list',
+                '/monitored-urls/list/archived',
+            ],
+            prepareApiParams: () => ({
+                uri: `/monitored-urls/${isArchive ? 'un-archive' : 'archive'}/${urlId}`,
+                method: RequestMethod.PATCH,
+            }),
+            options: {
+                onMutate: async () => {
+                    await queryClient.cancelQueries({
+                        queryKey: [['/monitored-urls/list']],
+                    });
+
+                    await queryClient.cancelQueries({
+                        queryKey: [['/monitored-urls/list/archived']],
+                    });
+
+                    const previousUrls = queryClient.getQueryData(
+                        [['/monitored-urls/list']],
+                    ) as MonitoredUrls;
+
+                    const previousUrlsArchived = queryClient.getQueryData(
+                        [['/monitored-urls/list/archived']],
+                    ) as MonitoredUrls;
+
+                    const projectMapper = (url: MonitoredUrl) => {
+                        if (url.id === urlId) {
+                            url.isActive = isArchive;
+                        }
+
+                        return url;
+                    };
+
+                    if (previousUrls) {
+                        const newUrls = previousUrls.map(
+                            projectMapper,
+                        );
+
+                        queryClient.setQueryData([['/monitored-urls/list']], newUrls);
+                    }
+
+                    if (previousUrlsArchived) {
+                        const newUrlsArchive = previousUrlsArchived.map(
+                            projectMapper,
+                        );
+
+                        queryClient.setQueryData([['/monitored-urls/list/archived']], newUrlsArchive);
+                    }
+
+                    return {
+                        previousUrls,
+                        previousUrlsArchived,
+                    };
+                },
+            },
+        },
+    );
+};

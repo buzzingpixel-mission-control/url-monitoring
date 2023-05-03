@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useEditMonitoredUrlMutation = exports.useAddMonitoredUrlMutation = exports.useMonitoredUrlData = void 0;
+exports.useArchiveMonitoredUrlMutation = exports.useEditMonitoredUrlMutation = exports.useAddMonitoredUrlMutation = exports.useMonitoredUrlData = void 0;
 var buzzingpixel_mission_control_frontend_core_1 = require("buzzingpixel-mission-control-frontend-core");
 var react_query_1 = require("@tanstack/react-query");
 var MonitoredUrls_1 = require("./MonitoredUrls");
@@ -136,3 +136,56 @@ var useEditMonitoredUrlMutation = function (urlId) {
     });
 };
 exports.useEditMonitoredUrlMutation = useEditMonitoredUrlMutation;
+var useArchiveMonitoredUrlMutation = function (urlId, isArchive) {
+    var queryClient = (0, react_query_1.useQueryClient)();
+    return (0, buzzingpixel_mission_control_frontend_core_1.useApiMutation)({
+        invalidateQueryKeysOnSuccess: [
+            '/monitored-urls/list',
+            '/monitored-urls/list/archived',
+        ],
+        prepareApiParams: function () { return ({
+            uri: "/monitored-urls/".concat(isArchive ? 'un-archive' : 'archive', "/").concat(urlId),
+            method: buzzingpixel_mission_control_frontend_core_1.RequestMethod.PATCH,
+        }); },
+        options: {
+            onMutate: function () { return __awaiter(void 0, void 0, void 0, function () {
+                var previousUrls, previousUrlsArchived, projectMapper, newUrls, newUrlsArchive;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, queryClient.cancelQueries({
+                                queryKey: [['/monitored-urls/list']],
+                            })];
+                        case 1:
+                            _a.sent();
+                            return [4 /*yield*/, queryClient.cancelQueries({
+                                    queryKey: [['/monitored-urls/list/archived']],
+                                })];
+                        case 2:
+                            _a.sent();
+                            previousUrls = queryClient.getQueryData([['/monitored-urls/list']]);
+                            previousUrlsArchived = queryClient.getQueryData([['/monitored-urls/list/archived']]);
+                            projectMapper = function (url) {
+                                if (url.id === urlId) {
+                                    url.isActive = isArchive;
+                                }
+                                return url;
+                            };
+                            if (previousUrls) {
+                                newUrls = previousUrls.map(projectMapper);
+                                queryClient.setQueryData([['/monitored-urls/list']], newUrls);
+                            }
+                            if (previousUrlsArchived) {
+                                newUrlsArchive = previousUrlsArchived.map(projectMapper);
+                                queryClient.setQueryData([['/monitored-urls/list/archived']], newUrlsArchive);
+                            }
+                            return [2 /*return*/, {
+                                    previousUrls: previousUrls,
+                                    previousUrlsArchived: previousUrlsArchived,
+                                }];
+                    }
+                });
+            }); },
+        },
+    });
+};
+exports.useArchiveMonitoredUrlMutation = useArchiveMonitoredUrlMutation;
