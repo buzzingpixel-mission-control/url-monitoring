@@ -1,3 +1,6 @@
 /// <reference types="react" />
-declare const MonitoredUrlEditButton: () => JSX.Element;
+import { MonitoredUrl } from '../MonitoredUrls';
+declare const MonitoredUrlEditButton: ({ item, }: {
+    item: MonitoredUrl;
+}) => JSX.Element;
 export default MonitoredUrlEditButton;

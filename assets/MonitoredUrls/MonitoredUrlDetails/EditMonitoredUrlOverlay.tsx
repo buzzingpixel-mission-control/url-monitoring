@@ -1,25 +1,28 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-    EditorShellForm,
-    EditorShellInline,
-    FormInput,
-    FormInputProjects,
+    EditorShellFloating, EditorShellForm,
+    FormInput, FormInputProjects,
     FormInputText,
 } from 'buzzingpixel-mission-control-frontend-core';
-import { MonitoredUrl } from './MonitoredUrls';
-import AddMonitoredUrlFormValues from './AddMonitoredUrlFormValues';
-import { useEditMonitoredUrlMutation } from './MonitoredUrlData';
+import AddMonitoredUrlFormValues from '../AddMonitoredUrlFormValues';
+import { useEditMonitoredUrlMutation } from '../MonitoredUrlData';
+import { MonitoredUrl } from '../MonitoredUrls';
 
-const ProjectListItemEditor = (
+const EditMonitoredUrlOverlay = (
     {
         item,
-        setEditorIsOpen,
+        setIsOpen,
     }: {
         item: MonitoredUrl;
-        setEditorIsOpen: Dispatch<SetStateAction<boolean>>;
+        setIsOpen: Dispatch<SetStateAction<boolean>>;
     },
 ) => {
+    const [
+        isSaving,
+        setIsSaving,
+    ] = useState<boolean>(false);
+
     const {
         getValues,
         register,
@@ -31,11 +34,6 @@ const ProjectListItemEditor = (
             project_id: item.projectId,
         },
     });
-
-    const [
-        isSaving,
-        setIsSaving,
-    ] = useState<boolean>(false);
 
     const inputs = [
         {
@@ -83,9 +81,9 @@ const ProjectListItemEditor = (
         }
 
         mutation.mutate(data, {
-            onSuccess: () => setEditorIsOpen(false),
+            onSuccess: () => setIsOpen(false),
             onError: (error) => {
-                setErrorMessage(error.message || 'Unable to edit monitored URL');
+                setErrorMessage(error.message || 'Unable to add monitored url');
 
                 setIsSaving(false);
             },
@@ -93,30 +91,25 @@ const ProjectListItemEditor = (
     };
 
     return (
-        <div style={{ paddingBottom: '1.5rem' }}>
-            <div
-                className="border border-gray-300 rounded-md shadow-md mx-auto p-4"
-                style={{ maxWidth: '600px' }}
-            >
-                <EditorShellInline
-                    isSaving={isSaving}
-                    setEditorIsOpen={setEditorIsOpen}
-                    errorMessage={errorMessage}
-                    saveHandler={() => {
-                        saveHandler(getValues());
-                    }}
-                >
-                    <EditorShellForm
-                        inputs={inputs}
-                        register={register}
-                        onSubmit={() => {
-                            saveHandler(getValues());
-                        }}
-                    />
-                </EditorShellInline>
-            </div>
-        </div>
+        <EditorShellFloating
+            title="Add New Monitored URL"
+            isSaving={isSaving}
+            submitButtonText="Submit"
+            errorMessage={errorMessage}
+            saveHandler={() => {
+                saveHandler(getValues());
+            }}
+            setEditorIsOpen={setIsOpen}
+        >
+            <EditorShellForm
+                inputs={inputs}
+                register={register}
+                onSubmit={() => {
+                    saveHandler(getValues());
+                }}
+            />
+        </EditorShellFloating>
     );
 };
 
-export default ProjectListItemEditor;
+export default EditMonitoredUrlOverlay;

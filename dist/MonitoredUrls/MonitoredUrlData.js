@@ -81,10 +81,11 @@ var useAddMonitoredUrlMutation = function () { return (0, buzzingpixel_mission_c
     }); },
 }); };
 exports.useAddMonitoredUrlMutation = useAddMonitoredUrlMutation;
-var useEditMonitoredUrlMutation = function (urlId) {
+var useEditMonitoredUrlMutation = function (urlId, slug) {
     var queryClient = (0, react_query_1.useQueryClient)();
     return (0, buzzingpixel_mission_control_frontend_core_1.useApiMutation)({
         invalidateQueryKeysOnSuccess: [
+            "/monitored-urls/".concat(slug),
             '/monitored-urls/list',
             '/monitored-urls/list/archived',
         ],

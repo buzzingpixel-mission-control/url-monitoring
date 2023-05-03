@@ -70,12 +70,13 @@ export const useAddMonitoredUrlMutation = () => useApiMutation<unknown, AddMonit
     },
 );
 
-export const useEditMonitoredUrlMutation = (urlId: string) => {
+export const useEditMonitoredUrlMutation = (urlId: string, slug: string) => {
     const queryClient = useQueryClient();
 
     return useApiMutation<unknown, AddMonitoredUrlFormValues>(
         {
             invalidateQueryKeysOnSuccess: [
+                `/monitored-urls/${slug}`,
                 '/monitored-urls/list',
                 '/monitored-urls/list/archived',
             ],

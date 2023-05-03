@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
 import { createPortal } from 'buzzingpixel-mission-control-frontend-core';
-import AddMonitoredUrlOverlay from '../AddMonitoredUrlOverlay';
+import EditMonitoredUrlOverlay from './EditMonitoredUrlOverlay';
+import { MonitoredUrl } from '../MonitoredUrls';
 
-const MonitoredUrlEditButton = () => {
+const MonitoredUrlEditButton = (
+    {
+        item,
+    }: {
+        item: MonitoredUrl;
+    },
+) => {
     const [
         isOpen,
         setIsOpen,
@@ -15,8 +22,12 @@ const MonitoredUrlEditButton = () => {
                     return null;
                 }
 
-                // TODO: Replace this with new editor
-                return createPortal(<AddMonitoredUrlOverlay setIsOpen={setIsOpen} />);
+                return createPortal(
+                    <EditMonitoredUrlOverlay
+                        item={item}
+                        setIsOpen={setIsOpen}
+                    />,
+                );
             })()}
             <button
                 type="button"
