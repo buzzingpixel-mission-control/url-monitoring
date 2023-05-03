@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MissionControlUrlMonitoring\MonitoredUrls;
 
-use MissionControlUrlMonitoring\MonitoredUrls\AddEdit\ValueObjects\Url;
 use MissionControlUrlMonitoring\MonitoredUrls\Persistence\MonitoredUrlRecord;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\CheckedAt;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\CreatedAt;
@@ -15,6 +14,7 @@ use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\ProjectId;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Slug;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Status;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Title;
+use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\Url;
 use Spatie\Cloneable\Cloneable;
 
 // phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps

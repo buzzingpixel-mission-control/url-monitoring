@@ -22,11 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var react_router_dom_1 = require("react-router-dom");
 var react_2 = require("@headlessui/react");
 var solid_1 = require("@heroicons/react/20/solid");
+var MonitoredUrlListItemEditor_1 = __importDefault(require("./MonitoredUrlListItemEditor"));
 var archiveActiveStatuses = {
     Active: 'text-green-700 bg-green-50 ring-green-600/20',
     Archived: 'text-yellow-800 bg-yellow-50 ring-yellow-600/20',
@@ -114,13 +118,7 @@ var MonitoredUrlListItem = function (_a) {
             if (!editIsOpen) {
                 return null;
             }
-            return react_1.default.createElement(react_1.default.Fragment, null, "todo");
-            /* return (
-                <ProjectListItemEditor
-                    project={project}
-                    setEditorIsOpen={setEditProjectIsOpen}
-                />
-            ); */
+            return (react_1.default.createElement(MonitoredUrlListItemEditor_1.default, { item: item, setEditorIsOpen: setEditIsOpen }));
         })()));
 };
 exports.default = MonitoredUrlListItem;

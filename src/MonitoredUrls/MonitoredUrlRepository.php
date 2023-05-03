@@ -49,6 +49,28 @@ readonly class MonitoredUrlRepository
         );
     }
 
+    public function findOneById(string $id): MonitoredUrl
+    {
+        return MonitoredUrl::fromRecord(
+            $this->findMonitoredUrls->findOne(
+                (new FindMonitoredUrlParameters())->withId($id),
+            ),
+        );
+    }
+
+    public function findOneByIdOrNull(string $id): MonitoredUrl|null
+    {
+        $record = $this->findMonitoredUrls->findOneOrNull(
+            (new FindMonitoredUrlParameters())->withId($id),
+        );
+
+        if ($record === null) {
+            return null;
+        }
+
+        return MonitoredUrl::fromRecord($record);
+    }
+
     public function findAll(
         FindMonitoredUrlParameters|null $parameters = null,
     ): MonitoredUrlCollection {

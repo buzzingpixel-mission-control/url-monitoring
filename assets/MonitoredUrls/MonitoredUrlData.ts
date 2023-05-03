@@ -4,7 +4,10 @@ import {
     useApiMutation,
     RequestMethod, useAllProjectsData,
 } from 'buzzingpixel-mission-control-frontend-core';
-import { MonitoredUrls, MonitoredUrlsSchema, transformMonitoredUrls } from './MonitoredUrls';
+import { useQueryClient } from '@tanstack/react-query';
+import {
+    MonitoredUrl, MonitoredUrls, MonitoredUrlsSchema, transformMonitoredUrls,
+} from './MonitoredUrls';
 import AddMonitoredUrlFormValues from './AddMonitoredUrlFormValues';
 
 export const useMonitoredUrlData = (archive = false) => {
@@ -56,3 +59,75 @@ export const useAddMonitoredUrlMutation = () => useApiMutation<unknown, AddMonit
         }),
     },
 );
+
+export const useEditMonitoredUrlMutation = (urlId: string) => {
+    const queryClient = useQueryClient();
+
+    return useApiMutation<unknown, AddMonitoredUrlFormValues>(
+        {
+            invalidateQueryKeysOnSuccess: [
+                '/monitored-urls/list',
+                '/monitored-urls/list/archived',
+            ],
+            prepareApiParams: (
+                data,
+            ) => ({
+                uri: `/monitored-urls/edit/${urlId}`,
+                payload: data,
+                method: RequestMethod.PATCH,
+            }),
+            options: {
+                onMutate: async (data) => {
+                    const formValues = data as unknown as AddMonitoredUrlFormValues;
+
+                    await queryClient.cancelQueries({
+                        queryKey: [['/monitored-urls/list']],
+                    });
+
+                    await queryClient.cancelQueries({
+                        queryKey: [['/monitored-urls/list/archived']],
+                    });
+
+                    const previousUrls = queryClient.getQueryData(
+                        [['/monitored-urls/list']],
+                    ) as MonitoredUrls;
+
+                    const previousUrlsArchived = queryClient.getQueryData(
+                        [['/monitored-urls/list/archived']],
+                    ) as MonitoredUrls;
+
+                    const urlMapper = (url: MonitoredUrl) => {
+                        if (url.id === urlId) {
+                            url.title = formValues.title;
+                            url.url = formValues.url;
+                            url.projectId = formValues.project_id;
+                        }
+
+                        return url;
+                    };
+
+                    if (previousUrls) {
+                        const newUrls = previousUrls.map(
+                            urlMapper,
+                        );
+
+                        queryClient.setQueryData([['/monitored-urls/list']], newUrls);
+                    }
+
+                    if (previousUrlsArchived) {
+                        const newUrlsArchive = previousUrlsArchived.map(
+                            urlMapper,
+                        );
+
+                        queryClient.setQueryData([['/monitored-urls/list/archived']], newUrlsArchive);
+                    }
+
+                    return {
+                        previousUrls,
+                        previousUrlsArchived,
+                    };
+                },
+            },
+        },
+    );
+};

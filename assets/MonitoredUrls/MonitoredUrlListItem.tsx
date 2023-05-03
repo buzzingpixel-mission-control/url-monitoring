@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, Transition } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { MonitoredUrlWithViewOptions } from './MonitoredUrls';
+import MonitoredUrlListItemEditor from './MonitoredUrlListItemEditor';
 
 const archiveActiveStatuses = {
     Active: 'text-green-700 bg-green-50 ring-green-600/20',
@@ -182,14 +183,12 @@ const MonitoredUrlListItem = (
                     return null;
                 }
 
-                return <>todo</>;
-
-                /* return (
-                    <ProjectListItemEditor
-                        project={project}
-                        setEditorIsOpen={setEditProjectIsOpen}
+                return (
+                    <MonitoredUrlListItemEditor
+                        item={item}
+                        setEditorIsOpen={setEditIsOpen}
                     />
-                ); */
+                );
             })()}
         </li>
     );
