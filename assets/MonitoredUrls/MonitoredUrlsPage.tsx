@@ -82,7 +82,7 @@ const MonitoredUrlsPage = (
         return null;
     };
 
-    let urls = transformMonitoredUrls(data);
+    let urls = data;
 
     if (urls.length < 1) {
         if (isArchive) {

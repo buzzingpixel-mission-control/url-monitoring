@@ -63,7 +63,16 @@ exports.MonitoredUrlSchema = zod_1.z.object({
     createdAt: zod_1.z.string(),
 });
 exports.MonitoredUrlsSchema = zod_1.z.array(exports.MonitoredUrlSchema);
-var transformMonitoredUrl = function (monitoredUrl) { return (__assign(__assign({}, monitoredUrl), { href: "/monitored-urls/".concat(monitoredUrl.slug), createdAtDate: new Date(monitoredUrl.createdAt), statusReadable: (0, exports.mapMonitoredUrlStatusToReadable)(monitoredUrl.status), activeOrArchivedText: monitoredUrl.isActive ? 'Active' : 'Archived' })); };
+var transformMonitoredUrl = function (monitoredUrl, projects) {
+    projects = projects || [];
+    var project;
+    var filteredProjects = projects.filter(function (p) { return p.id === monitoredUrl.projectId; });
+    if (filteredProjects[0]) {
+        // eslint-disable-next-line prefer-destructuring
+        project = filteredProjects[0];
+    }
+    return (__assign(__assign({}, monitoredUrl), { href: "/monitored-urls/".concat(monitoredUrl.slug), createdAtDate: new Date(monitoredUrl.createdAt), statusReadable: (0, exports.mapMonitoredUrlStatusToReadable)(monitoredUrl.status), activeOrArchivedText: monitoredUrl.isActive ? 'Active' : 'Archived', project: project }));
+};
 exports.transformMonitoredUrl = transformMonitoredUrl;
-var transformMonitoredUrls = function (monitoredUrls) { return monitoredUrls.map(function (monitoredUrl) { return (0, exports.transformMonitoredUrl)(monitoredUrl); }); };
+var transformMonitoredUrls = function (monitoredUrls, projects) { return monitoredUrls.map(function (monitoredUrl) { return (0, exports.transformMonitoredUrl)(monitoredUrl, projects); }); };
 exports.transformMonitoredUrls = transformMonitoredUrls;

@@ -67,6 +67,25 @@ const MonitoredUrlListItem = (
                         >
                             {item.statusReadable}
                         </p>
+                        {(() => {
+                            if (!item.project) {
+                                return null;
+                            }
+
+                            return (
+                                <Link
+                                    to={item.project.href}
+                                    className={classNames(
+                                        'text-cyan-700 bg-cyan-50 ring-cyan-600/20 hover:bg-cyan-100 hover:text-cyan-800',
+                                        'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset',
+                                    )}
+                                >
+                                    Project:
+                                    {' '}
+                                    {item.project.title}
+                                </Link>
+                            );
+                        })()}
                     </div>
                     <div className="mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500 truncate">
                         <a

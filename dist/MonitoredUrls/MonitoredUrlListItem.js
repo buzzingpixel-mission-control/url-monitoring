@@ -60,7 +60,16 @@ var MonitoredUrlListItem = function (_a) {
                 react_1.default.createElement("div", { className: "flex items-start gap-x-3" },
                     react_1.default.createElement("p", { className: "text-sm font-semibold leading-6 text-gray-900" }, item.title),
                     react_1.default.createElement("p", { className: classNames(archiveActiveStatuses[item.activeOrArchivedText], 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') }, item.activeOrArchivedText),
-                    react_1.default.createElement("p", { className: classNames(statuses[item.statusReadable], 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') }, item.statusReadable)),
+                    react_1.default.createElement("p", { className: classNames(statuses[item.statusReadable], 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') }, item.statusReadable),
+                    (function () {
+                        if (!item.project) {
+                            return null;
+                        }
+                        return (react_1.default.createElement(react_router_dom_1.Link, { to: item.project.href, className: classNames('text-cyan-700 bg-cyan-50 ring-cyan-600/20 hover:bg-cyan-100 hover:text-cyan-800', 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') },
+                            "Project:",
+                            ' ',
+                            item.project.title));
+                    })()),
                 react_1.default.createElement("div", { className: "mt-1 flex items-center gap-x-2 text-xs leading-5 text-gray-500 truncate" },
                     react_1.default.createElement("a", { href: item.url, className: "underline font-medium text-cyan-600 hover:text-cyan-500", target: "_blank", rel: "noreferrer" }, item.url),
                     react_1.default.createElement("svg", { viewBox: "0 0 2 2", className: "h-0.5 w-0.5 fill-current" },

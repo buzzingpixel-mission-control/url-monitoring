@@ -2,9 +2,9 @@ import {
     useApiQueryWithSignInRedirect,
     MinutesToMilliseconds,
     useApiMutation,
-    RequestMethod,
+    RequestMethod, useAllProjectsData,
 } from 'buzzingpixel-mission-control-frontend-core';
-import { MonitoredUrls, MonitoredUrlsSchema } from './MonitoredUrls';
+import { MonitoredUrls, MonitoredUrlsSchema, transformMonitoredUrls } from './MonitoredUrls';
 import AddMonitoredUrlFormValues from './AddMonitoredUrlFormValues';
 
 export const useMonitoredUrlData = (archive = false) => {
@@ -12,7 +12,7 @@ export const useMonitoredUrlData = (archive = false) => {
         ? '/monitored-urls/list/archived'
         : '/monitored-urls/list';
 
-    return useApiQueryWithSignInRedirect<MonitoredUrls>(
+    const response = useApiQueryWithSignInRedirect<MonitoredUrls>(
         [uri],
         { uri },
         {
@@ -20,6 +20,25 @@ export const useMonitoredUrlData = (archive = false) => {
             zodValidator: MonitoredUrlsSchema,
         },
     );
+
+    const projects = useAllProjectsData();
+
+    if (response.status === 'loading' || projects.status === 'loading') {
+        return {
+            status: 'loading',
+        };
+    }
+
+    if (response.status === 'error' || projects.status === 'error') {
+        return {
+            status: 'error',
+        };
+    }
+
+    return {
+        status: 'success',
+        data: transformMonitoredUrls(response.data, projects.data),
+    };
 };
 
 export const useAddMonitoredUrlMutation = () => useApiMutation<unknown, AddMonitoredUrlFormValues>(

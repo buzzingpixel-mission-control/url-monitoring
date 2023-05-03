@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ProjectsWithViewOptions, ProjectWithViewOptions } from 'buzzingpixel-mission-control-frontend-core';
 
 export enum MonitoredUrlStatus {
     unknown = '',
@@ -64,22 +65,41 @@ export type MonitoredUrlWithViewOptions = MonitoredUrl & {
     createdAtDate: Date;
     statusReadable: string;
     activeOrArchivedText: string;
+    project?: ProjectWithViewOptions;
 };
 
 export type MonitoredUrlsWithViewOptions = Array<MonitoredUrlWithViewOptions>;
 
 export const transformMonitoredUrl = (
     monitoredUrl: MonitoredUrl,
-): MonitoredUrlWithViewOptions => ({
-    ...monitoredUrl,
-    href: `/monitored-urls/${monitoredUrl.slug}`,
-    createdAtDate: new Date(monitoredUrl.createdAt),
-    statusReadable: mapMonitoredUrlStatusToReadable(monitoredUrl.status),
-    activeOrArchivedText: monitoredUrl.isActive ? 'Active' : 'Archived',
-});
+    projects?: ProjectsWithViewOptions,
+): MonitoredUrlWithViewOptions => {
+    projects = projects || [];
+
+    let project;
+
+    const filteredProjects = projects.filter(
+        (p) => p.id === monitoredUrl.projectId,
+    );
+
+    if (filteredProjects[0]) {
+        // eslint-disable-next-line prefer-destructuring
+        project = filteredProjects[0];
+    }
+
+    return ({
+        ...monitoredUrl,
+        href: `/monitored-urls/${monitoredUrl.slug}`,
+        createdAtDate: new Date(monitoredUrl.createdAt),
+        statusReadable: mapMonitoredUrlStatusToReadable(monitoredUrl.status),
+        activeOrArchivedText: monitoredUrl.isActive ? 'Active' : 'Archived',
+        project,
+    });
+};
 
 export const transformMonitoredUrls = (
     monitoredUrls: MonitoredUrls,
+    projects?: ProjectsWithViewOptions,
 ): MonitoredUrlsWithViewOptions => monitoredUrls.map((
     monitoredUrl,
-) => transformMonitoredUrl(monitoredUrl));
+) => transformMonitoredUrl(monitoredUrl, projects));

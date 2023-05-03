@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ProjectsWithViewOptions, ProjectWithViewOptions } from 'buzzingpixel-mission-control-frontend-core';
 export declare enum MonitoredUrlStatus {
     unknown = "",
     up = "up",
@@ -79,9 +80,10 @@ export type MonitoredUrlWithViewOptions = MonitoredUrl & {
     createdAtDate: Date;
     statusReadable: string;
     activeOrArchivedText: string;
+    project?: ProjectWithViewOptions;
 };
 export type MonitoredUrlsWithViewOptions = Array<MonitoredUrlWithViewOptions>;
-export declare const transformMonitoredUrl: (monitoredUrl: MonitoredUrl) => MonitoredUrlWithViewOptions;
+export declare const transformMonitoredUrl: (monitoredUrl: MonitoredUrl, projects?: ProjectsWithViewOptions) => MonitoredUrlWithViewOptions;
 export declare const transformMonitoredUrls: (monitoredUrls: {
     id?: string;
     projectId?: string;
@@ -92,4 +94,4 @@ export declare const transformMonitoredUrls: (monitoredUrls: {
     status?: MonitoredUrlStatus;
     checkedAt?: string;
     createdAt?: string;
-}[]) => MonitoredUrlsWithViewOptions;
+}[], projects?: ProjectsWithViewOptions) => MonitoredUrlsWithViewOptions;

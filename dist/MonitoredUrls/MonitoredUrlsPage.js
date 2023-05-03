@@ -69,7 +69,7 @@ var MonitoredUrlsPage = function (_a) {
         }
         return null;
     };
-    var urls = (0, MonitoredUrls_1.transformMonitoredUrls)(data);
+    var urls = data;
     if (urls.length < 1) {
         if (isArchive) {
             return (react_1.default.createElement(react_1.default.Fragment, null,
