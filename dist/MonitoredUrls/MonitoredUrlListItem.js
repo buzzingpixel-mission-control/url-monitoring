@@ -59,7 +59,12 @@ var MonitoredUrlListItem = function (_a) {
                 react_1.default.createElement("div", { className: "flex items-start gap-x-3" },
                     react_1.default.createElement("p", { className: "text-sm font-semibold leading-6 text-gray-900" }, item.title),
                     react_1.default.createElement("p", { className: classNames(archiveActiveStatuses[item.activeOrArchivedText], 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') }, item.activeOrArchivedText),
-                    react_1.default.createElement("p", { className: classNames(statuses[item.statusReadable], 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') }, item.statusReadable),
+                    (function () {
+                        if (isArchive) {
+                            return null;
+                        }
+                        return (react_1.default.createElement("p", { className: classNames(statuses[item.statusReadable], 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') }, item.statusReadable));
+                    })(),
                     (function () {
                         if (!item.project) {
                             return null;

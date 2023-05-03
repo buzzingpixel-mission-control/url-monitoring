@@ -57,14 +57,22 @@ const MonitoredUrlListItem = (
                         >
                             {item.activeOrArchivedText}
                         </p>
-                        <p
-                            className={classNames(
-                                statuses[item.statusReadable],
-                                'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset',
-                            )}
-                        >
-                            {item.statusReadable}
-                        </p>
+                        {(() => {
+                            if (isArchive) {
+                                return null;
+                            }
+
+                            return (
+                                <p
+                                    className={classNames(
+                                        statuses[item.statusReadable],
+                                        'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset',
+                                    )}
+                                >
+                                    {item.statusReadable}
+                                </p>
+                            );
+                        })()}
                         {(() => {
                             if (!item.project) {
                                 return null;
