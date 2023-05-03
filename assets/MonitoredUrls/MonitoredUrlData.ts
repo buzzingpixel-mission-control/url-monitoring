@@ -19,8 +19,9 @@ export const useMonitoredUrlData = (archive = false) => {
         [uri],
         { uri },
         {
-            staleTime: MinutesToMilliseconds(5),
+            staleTime: MinutesToMilliseconds(1),
             zodValidator: MonitoredUrlsSchema,
+            refetchInterval: MinutesToMilliseconds(1),
         },
     );
 

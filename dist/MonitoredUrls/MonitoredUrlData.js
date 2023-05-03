@@ -46,8 +46,9 @@ var useMonitoredUrlData = function (archive) {
         ? '/monitored-urls/list/archived'
         : '/monitored-urls/list';
     var response = (0, buzzingpixel_mission_control_frontend_core_1.useApiQueryWithSignInRedirect)([uri], { uri: uri }, {
-        staleTime: (0, buzzingpixel_mission_control_frontend_core_1.MinutesToMilliseconds)(5),
+        staleTime: (0, buzzingpixel_mission_control_frontend_core_1.MinutesToMilliseconds)(1),
         zodValidator: MonitoredUrls_1.MonitoredUrlsSchema,
+        refetchInterval: (0, buzzingpixel_mission_control_frontend_core_1.MinutesToMilliseconds)(1),
     });
     var projects = (0, buzzingpixel_mission_control_frontend_core_1.useAllProjectsData)();
     if (response.status === 'loading' || projects.status === 'loading') {
