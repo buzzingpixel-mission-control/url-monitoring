@@ -6,11 +6,18 @@ import {
 } from 'buzzingpixel-mission-control-frontend-core';
 import { useQueryClient } from '@tanstack/react-query';
 import {
-    MonitoredUrl, MonitoredUrls, MonitoredUrlsSchema, transformMonitoredUrls,
+    MonitoredUrl,
+    MonitoredUrls,
+    MonitoredUrlsSchema,
+    MonitoredUrlsWithViewOptions,
+    transformMonitoredUrls,
 } from './MonitoredUrls';
 import AddMonitoredUrlFormValues from './AddMonitoredUrlFormValues';
 
-export const useMonitoredUrlData = (archive = false) => {
+export const useMonitoredUrlData = (archive = false): {
+    status: 'loading' | 'error' | 'success';
+    data: MonitoredUrlsWithViewOptions;
+} => {
     const uri = archive
         ? '/monitored-urls/list/archived'
         : '/monitored-urls/list';
@@ -19,8 +26,8 @@ export const useMonitoredUrlData = (archive = false) => {
         [uri],
         { uri },
         {
-            staleTime: MinutesToMilliseconds(1),
             zodValidator: MonitoredUrlsSchema,
+            staleTime: MinutesToMilliseconds(1),
             refetchInterval: MinutesToMilliseconds(1),
         },
     );
@@ -30,12 +37,14 @@ export const useMonitoredUrlData = (archive = false) => {
     if (response.status === 'loading' || projects.status === 'loading') {
         return {
             status: 'loading',
+            data: [],
         };
     }
 
     if (response.status === 'error' || projects.status === 'error') {
         return {
             status: 'error',
+            data: [],
         };
     }
 

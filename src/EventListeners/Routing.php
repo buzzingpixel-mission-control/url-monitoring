@@ -9,6 +9,7 @@ use MissionControlUrlMonitoring\MonitoredUrls\AddEdit\PatchArchiveMonitoredUrlAc
 use MissionControlUrlMonitoring\MonitoredUrls\AddEdit\PatchEditMonitoredUrlAction;
 use MissionControlUrlMonitoring\MonitoredUrls\AddEdit\PatchUnArchiveMonitoredUrlAction;
 use MissionControlUrlMonitoring\MonitoredUrls\AddEdit\PostAddMonitoredUrlAction;
+use MissionControlUrlMonitoring\MonitoredUrls\GetDetails\GetMonitoredUrlDetailsBySlugAction;
 use MissionControlUrlMonitoring\MonitoredUrls\GetMonitoredUrlsListAction;
 use MissionControlUrlMonitoring\MonitoredUrls\GetMonitoredUrlsListArchivedAction;
 
@@ -22,5 +23,6 @@ class Routing
         PatchEditMonitoredUrlAction::registerRoute($event);
         PatchArchiveMonitoredUrlAction::registerRoute($event);
         PatchUnArchiveMonitoredUrlAction::registerRoute($event);
+        GetMonitoredUrlDetailsBySlugAction::registerRoute($event);
     }
 }

@@ -58,10 +58,11 @@ readonly class MonitoredUrlRepository
         );
     }
 
-    public function findOneByIdOrNull(string $id): MonitoredUrl|null
-    {
+    public function findOneOrNull(
+        FindMonitoredUrlParameters|null $parameters = null,
+    ): MonitoredUrl|null {
         $record = $this->findMonitoredUrls->findOneOrNull(
-            (new FindMonitoredUrlParameters())->withId($id),
+            $parameters,
         );
 
         if ($record === null) {
