@@ -67,12 +67,12 @@ readonly class FindMonitoredUrlParameters extends FetchParameters
         );
     }
 
-    public function withNotProjectId(string $notpProjectId): static
+    public function withNotProjectId(string $notProjectId): static
     {
         $notProjectIds = $this->notProjectIds ?? new StringCollection();
 
         return $this->with(
-            projectIds: $notProjectIds->withString($notpProjectId),
+            projectIds: $notProjectIds->withString($notProjectId),
         );
     }
 

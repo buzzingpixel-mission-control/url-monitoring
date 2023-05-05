@@ -12,7 +12,7 @@ use Throwable;
 use function count;
 use function implode;
 
-class SaveMonitoredUrl
+readonly class SaveMonitoredUrl
 {
     public function __construct(
         private MissionControlPdo $pdo,
