@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d07c03ea2b769be7e21b056906aa7f2",
+    "content-hash": "73ef9d307ffd0382f005163a4fa864a1",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -313,12 +313,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/buzzingpixel-mission-control/backend-core.git",
-                "reference": "48233dd600306bea01debc9a485a7c85e03846be"
+                "reference": "b6a29cd9010de4116ab23d89c3fcbf97474aade6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/buzzingpixel-mission-control/backend-core/zipball/48233dd600306bea01debc9a485a7c85e03846be",
-                "reference": "48233dd600306bea01debc9a485a7c85e03846be",
+                "url": "https://api.github.com/repos/buzzingpixel-mission-control/backend-core/zipball/b6a29cd9010de4116ab23d89c3fcbf97474aade6",
+                "reference": "b6a29cd9010de4116ab23d89c3fcbf97474aade6",
                 "shasum": ""
             },
             "require": {
@@ -374,7 +374,7 @@
                 "issues": "https://github.com/buzzingpixel-mission-control/backend-core/issues",
                 "source": "https://github.com/buzzingpixel-mission-control/backend-core/tree/main"
             },
-            "time": "2023-04-29T03:24:28+00:00"
+            "time": "2023-05-02T22:28:14+00:00"
         },
         {
             "name": "buzzingpixel/mission-control-idp",
@@ -5905,16 +5905,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.20.3",
+            "version": "1.20.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "6c04009f6cae6eda2f040745b6b846080ef069c2"
+                "reference": "7d568c87a9df9c5f7e8b5f075fc469aa8cb0a4cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/6c04009f6cae6eda2f040745b6b846080ef069c2",
-                "reference": "6c04009f6cae6eda2f040745b6b846080ef069c2",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/7d568c87a9df9c5f7e8b5f075fc469aa8cb0a4cd",
+                "reference": "7d568c87a9df9c5f7e8b5f075fc469aa8cb0a4cd",
                 "shasum": ""
             },
             "require": {
@@ -5944,9 +5944,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.20.3"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.20.4"
             },
-            "time": "2023-04-25T09:01:03+00:00"
+            "time": "2023-05-02T09:19:37+00:00"
         },
         {
             "name": "phpstan/phpstan",
@@ -6328,7 +6328,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "ext-redis": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

@@ -4,6 +4,7 @@
     "require": {
         "php": "^8.2",
         "ext-pdo": "*",
+        "ext-redis": "*",
         "buzzingpixel/mission-control-backend-core": "dev-main",
         "buzzingpixel/mission-control-idp": "dev-main",
         "cocur/slugify": "^4.3"
