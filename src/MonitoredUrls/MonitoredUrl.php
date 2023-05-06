@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MissionControlUrlMonitoring\MonitoredUrls;
 
+use DateTimeImmutable;
 use MissionControlUrlMonitoring\MonitoredUrls\Persistence\MonitoredUrlRecord;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\CheckedAt;
 use MissionControlUrlMonitoring\MonitoredUrls\ValueObjects\CreatedAt;
@@ -77,5 +78,48 @@ class MonitoredUrl
             'checkedAt' => $this->checkedAt->toNative(),
             'createdAt' => $this->createdAt->toNative(),
         ];
+    }
+
+    public function withProjectId(string|null $value): self
+    {
+        if ($value === null) {
+            return $this->with(projectId: new NullValue());
+        }
+
+        return $this->with(projectId: ProjectId::fromNative($value));
+    }
+
+    public function withIsActive(bool $value): self
+    {
+        return $this->with(isActive: IsActive::fromNative($value));
+    }
+
+    public function withTitle(string $value): self
+    {
+        return $this->with(title: Title::fromNative($value));
+    }
+
+    public function withSlug(string $value): self
+    {
+        return $this->with(slug: Slug::fromNative($value));
+    }
+
+    public function withUrl(string $value): self
+    {
+        return $this->with(url: Url::fromNative($value));
+    }
+
+    public function withStatus(Status $value): self
+    {
+        return $this->with(status: $value);
+    }
+
+    public function withCheckedAt(DateTimeImmutable|null $value): self
+    {
+        if ($value === null) {
+            return $this->with(checkedAt: new NullValue());
+        }
+
+        return $this->with(checkedAt: new CheckedAt($value));
     }
 }

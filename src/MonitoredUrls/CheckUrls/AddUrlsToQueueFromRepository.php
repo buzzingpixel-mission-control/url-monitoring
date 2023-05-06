@@ -29,23 +29,20 @@ readonly class AddUrlsToQueueFromRepository implements AddUrlsToQueue
                 ->withIsActive(true),
         );
 
-        /** @var QueueItemJob[] $jobs */
-        $jobs = $monitoredUrls->map(
-            static fn (MonitoredUrl $url) => new QueueItemJob(
-                CheckUrl::class,
-                context: [
-                    'urlId' => $url->id->toNative(),
-                ],
-            ),
-        );
-
-        $this->queueHandler->enqueue(
-            new QueueItem(
-                'check_monitored_urls',
-                'Check Monitored URLs',
-                new QueueItemJobCollection($jobs),
-            ),
-            $this->config->queueName,
-        );
+        $monitoredUrls->map(function (MonitoredUrl $url): void {
+            $this->queueHandler->enqueue(
+                new QueueItem(
+                    'check_monitored_urls_' . $url->slug->toNative(),
+                    '',
+                    new QueueItemJobCollection([
+                        new QueueItemJob(
+                            CheckUrlJob::class,
+                            context: ['urlId' => $url->id->toNative()],
+                        ),
+                    ]),
+                ),
+                $this->config->queueName,
+            );
+        });
     }
 }
