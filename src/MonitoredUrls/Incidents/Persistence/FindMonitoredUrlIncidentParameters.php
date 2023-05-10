@@ -21,6 +21,8 @@ readonly class FindMonitoredUrlIncidentParameters extends FetchParameters
         public StringCollection|null $notEventTypes = null,
         public StringCollection|null $statusCodes = null,
         public StringCollection|null $notStatusCodes = null,
+        public bool $lastNotificationIsNull = false,
+        public bool $lastNotificationIsNotNull = false,
         StringCollection|null $ids = null,
         StringCollection|null $notIds = null,
         int|null $limit = null,
@@ -100,6 +102,16 @@ readonly class FindMonitoredUrlIncidentParameters extends FetchParameters
         return $this->with(
             notStatusCodes: $values->withString($value),
         );
+    }
+
+    public function withLastNotificationIsNull(bool $value = true): static
+    {
+        return $this->with(lastNotificationIsNull: $value);
+    }
+
+    public function withLastNotificationIsNotNull(bool $value = true): static
+    {
+        return $this->with(lastNotificationIsNotNull: $value);
     }
 
     public function buildQuery(
@@ -304,6 +316,14 @@ readonly class FindMonitoredUrlIncidentParameters extends FetchParameters
             $query[] = 'AND status_code NOT IN (' .
                 implode(',', $in) .
                 ')';
+        }
+
+        if ($this->lastNotificationIsNull) {
+            $query[] = 'AND last_notification_at IS NULL';
+        }
+
+        if ($this->lastNotificationIsNotNull) {
+            $query[] = 'AND last_notification_at IS NOT NULL';
         }
 
         return new CustomQueryParams(

@@ -8,6 +8,7 @@ use RuntimeException;
 
 use function array_map;
 use function array_values;
+use function count;
 
 class MonitoredUrlIncidentCollection
 {
@@ -55,5 +56,10 @@ class MonitoredUrlIncidentCollection
         return $this->map(
             static fn (MonitoredUrlIncident $m) => $m->asArray(),
         );
+    }
+
+    public function count(): int
+    {
+        return count($this->monitoredUrlIncidents);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MissionControlUrlMonitoring\MonitoredUrls\Incidents;
 
+use DateTimeImmutable;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\Persistence\MonitoredUrlIncidentRecord;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\ValueObjects\EventAt;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\ValueObjects\EventType;
@@ -67,5 +68,38 @@ readonly class MonitoredUrlIncident
             'eventAt' => $this->eventAt->toNative(),
             'lastNotificationAt' => $this->lastNotificationAt->toNative(),
         ];
+    }
+
+    public function withMonitoredUrlId(string $value): self
+    {
+        return $this->with(monitoredUrlId: MonitoredUrlId::fromNative(
+            $value,
+        ));
+    }
+
+    public function withEventType(EventType $value): self
+    {
+        return $this->with(eventType: $value);
+    }
+
+    public function withStatusCode(string $value): self
+    {
+        return $this->with(statusCode: $value);
+    }
+
+    public function withMessage(string $value): self
+    {
+        return $this->with(message: $value);
+    }
+
+    public function withLastNotificationAt(DateTimeImmutable|null $value): self
+    {
+        if ($value === null) {
+            return $this->with(lastNotificationAt: new NullValue());
+        }
+
+        return $this->with(lastNotificationAt: new LastNotificationAt(
+            $value,
+        ));
     }
 }

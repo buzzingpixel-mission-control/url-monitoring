@@ -32,8 +32,8 @@ readonly class AddUrlsToQueueFromRepository implements AddUrlsToQueue
         $monitoredUrls->map(function (MonitoredUrl $url): void {
             $this->queueHandler->enqueue(
                 new QueueItem(
-                    'check_monitored_urls_' . $url->slug->toNative(),
-                    '',
+                    'check_monitored_urls_' . $url->id->toNative(),
+                    'Check Monitored URL: ' . $url->title->toNative(),
                     new QueueItemJobCollection([
                         new QueueItemJob(
                             CheckUrlJob::class,

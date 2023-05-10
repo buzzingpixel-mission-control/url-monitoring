@@ -7,6 +7,8 @@ namespace MissionControlUrlMonitoring\Dependencies;
 use MissionControlBackend\ContainerBindings;
 use MissionControlUrlMonitoring\MonitoredUrls\Config\MonitoredUrlConfig;
 use MissionControlUrlMonitoring\MonitoredUrls\Config\MonitoredUrlConfigFactory;
+use MissionControlUrlMonitoring\MonitoredUrls\Notifications\Adapters\Slack\MonitoredUrlSlackConfig;
+use MissionControlUrlMonitoring\MonitoredUrls\Notifications\Adapters\Slack\MonitoredUrlSlackConfigFactory;
 use Psr\Container\ContainerInterface;
 
 use function assert;
@@ -17,10 +19,21 @@ class RegisterBindings
     {
         $containerBindings->addBinding(
             MonitoredUrlConfig::class,
-            static function (ContainerInterface $container): MonitoredUrlConfig {
-                $factory = $container->get(MonitoredUrlConfigFactory::class);
+            static function (ContainerInterface $di): MonitoredUrlConfig {
+                $factory = $di->get(MonitoredUrlConfigFactory::class);
 
                 assert($factory instanceof MonitoredUrlConfigFactory);
+
+                return $factory->create();
+            },
+        );
+
+        $containerBindings->addBinding(
+            MonitoredUrlSlackConfig::class,
+            static function (ContainerInterface $di): MonitoredUrlSlackConfig {
+                $factory = $di->get(MonitoredUrlSlackConfigFactory::class);
+
+                assert($factory instanceof MonitoredUrlSlackConfigFactory);
 
                 return $factory->create();
             },
