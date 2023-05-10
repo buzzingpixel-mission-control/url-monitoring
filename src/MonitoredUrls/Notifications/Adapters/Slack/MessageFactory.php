@@ -10,7 +10,7 @@ use MissionControlBackend\Slack\Chat\Message;
 use MissionControlBackend\Url\AppUrlGenerator;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\MonitoredUrlIncident;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\ValueObjects\EventType;
-use MissionControlUrlMonitoring\MonitoredUrls\MonitoredUrlRepository;
+use MissionControlUrlMonitoring\MonitoredUrls\MonitoredUrl;
 use Psr\Clock\ClockInterface;
 
 use function implode;
@@ -21,16 +21,13 @@ readonly class MessageFactory
         private ClockInterface $clock,
         private AppUrlGenerator $urlGenerator,
         private MonitoredUrlSlackConfig $config,
-        private MonitoredUrlRepository $repository,
     ) {
     }
 
-    public function createFromIncident(MonitoredUrlIncident $incident): Message
-    {
-        $url = $this->repository->findOneById(
-            $incident->monitoredUrlId->toNative(),
-        );
-
+    public function createFromIncident(
+        MonitoredUrl $url,
+        MonitoredUrlIncident $incident,
+    ): Message {
         $text = implode("\n", [
             'URL Title: ' . $url->title->toNative(),
             'URL: ' . $url->url->toNative(),
@@ -67,6 +64,10 @@ readonly class MessageFactory
                 '(' . $url->url->toNative() . ')',
                 'is down',
             ]);
+
+            if (! $incident->lastNotificationAt->isNull()) {
+                $preText = 'Reminder: ' . $preText;
+            }
 
             return $message->withAttachment(
                 (new Attachment())

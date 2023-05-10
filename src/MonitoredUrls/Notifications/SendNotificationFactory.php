@@ -8,6 +8,7 @@ use MissionControlUrlMonitoring\MonitoredUrls\Incidents\MonitoredUrlIncident;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\MonitoredUrlIncidentRepository;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\Persistence\FindMonitoredUrlIncidentParameters;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\ValueObjects\EventType;
+use MissionControlUrlMonitoring\MonitoredUrls\Notifications\Adapters\SendNotification;
 
 readonly class SendNotificationFactory
 {

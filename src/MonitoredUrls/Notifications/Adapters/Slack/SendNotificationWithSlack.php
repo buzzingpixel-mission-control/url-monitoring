@@ -6,6 +6,7 @@ namespace MissionControlUrlMonitoring\MonitoredUrls\Notifications\Adapters\Slack
 
 use MissionControlBackend\Slack\SlackClient;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\MonitoredUrlIncident;
+use MissionControlUrlMonitoring\MonitoredUrls\MonitoredUrl;
 use MissionControlUrlMonitoring\MonitoredUrls\Notifications\Adapters\SendNotification;
 
 readonly class SendNotificationWithSlack implements SendNotification
@@ -16,10 +17,12 @@ readonly class SendNotificationWithSlack implements SendNotification
     ) {
     }
 
-    public function send(MonitoredUrlIncident $incident): void
-    {
+    public function send(
+        MonitoredUrl $url,
+        MonitoredUrlIncident $incident,
+    ): void {
         $this->slackClient->chat->postMessage(
-            $this->messageFactory->createFromIncident($incident),
+            $this->messageFactory->createFromIncident($url, $incident),
         );
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MissionControlUrlMonitoring\MonitoredUrls\Notifications\Adapters;
 
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\MonitoredUrlIncident;
+use MissionControlUrlMonitoring\MonitoredUrls\MonitoredUrl;
 use Spatie\Cloneable\Cloneable;
 
 use function array_map;
@@ -35,10 +36,13 @@ readonly class SendNotificationAdapterCollection implements SendNotification
         ));
     }
 
-    public function send(MonitoredUrlIncident $incident): void
-    {
+    public function send(
+        MonitoredUrl $url,
+        MonitoredUrlIncident $incident,
+    ): void {
         array_map(
             static fn (SendNotification $s) => $s->send(
+                $url,
                 $incident,
             ),
             $this->adapters,
