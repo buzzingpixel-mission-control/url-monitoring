@@ -41,7 +41,7 @@ readonly class CheckUrlJob
         $latestIncident = $this->monitoredUrlIncidentRepository->findOneOrNull(
             (new FindMonitoredUrlIncidentParameters())
                 ->withMonitoredUrlId($id)
-                ->withOrderBy('last_notification_at')
+                ->withOrderBy('event_at')
                 ->withSort(Sort::DESC),
         );
 
