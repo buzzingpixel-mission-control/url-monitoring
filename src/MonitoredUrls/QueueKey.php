@@ -43,17 +43,27 @@ readonly class QueueKey
         return $namespace . 'queue_' . $queueName . '_' . $key;
     }
 
-    public function getIncidentNotificationKey(
-        MonitoredUrlIncident $incident,
-    ): string {
-        return $this->getKey(
-            'incident_notification_' . $incident->id->toNative(),
-        );
-    }
-
     public function getIncidentNotificationHandle(
         MonitoredUrlIncident $incident,
     ): string {
         return 'incident_notification_' . $incident->id->toNative();
+    }
+
+    public function getIncidentNotificationKey(
+        MonitoredUrlIncident $incident,
+    ): string {
+        return $this->getKey(
+            $this->getIncidentNotificationHandle($incident),
+        );
+    }
+
+    public function getCheckNotificationsQueueHandle(): string
+    {
+        return 'check_notifications_main';
+    }
+
+    public function getCheckNotificationsQueueKey(): string
+    {
+        return $this->getKey($this->getCheckNotificationsQueueHandle());
     }
 }

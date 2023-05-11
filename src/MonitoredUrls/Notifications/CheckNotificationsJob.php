@@ -8,10 +8,7 @@ use MissionControlUrlMonitoring\MonitoredUrls\Incidents\MonitoredUrlIncidentRepo
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\Persistence\FindMonitoredUrlIncidentParameters;
 use MissionControlUrlMonitoring\MonitoredUrls\Incidents\ValueObjects\EventType;
 
-/**
- * TODO: Add schedule
- */
-readonly class CheckNotificationsAction
+readonly class CheckNotificationsJob
 {
     public function __construct(
         private MonitoredUrlIncidentRepository $repository,
