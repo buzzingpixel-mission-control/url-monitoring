@@ -21,9 +21,11 @@ readonly class AddNotificationsToQueueFactory
 
     public function create(): AddCheckNotificationsToQueue
     {
-        $queueKey = $this->queueKey->getCheckNotificationsQueueKey();
+        $queueKey = $this->queueKey->getCheckNotificationsQueueHandle();
 
-        $alreadyEnqueuedKeys = $this->redis->keys($queueKey);
+        $alreadyEnqueuedKeys = $this->redis->keys(
+            '*_' . $queueKey . '_*',
+        );
 
         if (count($alreadyEnqueuedKeys) > 0) {
             return $this->noOp;
