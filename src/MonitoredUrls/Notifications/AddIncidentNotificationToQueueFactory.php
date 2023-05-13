@@ -23,12 +23,12 @@ readonly class AddIncidentNotificationToQueueFactory
     public function create(
         MonitoredUrlIncident $incident,
     ): AddIncidentNotificationToQueue {
-        $queueKey = $this->queueKey->getIncidentNotificationKey(
+        $queueKey = $this->queueKey->getIncidentNotificationHandle(
             $incident,
         );
 
         $alreadyEnqueuedKeys = $this->redis->keys(
-            $queueKey . '_*',
+            '*_' . $queueKey . '_*',
         );
 
         if (count($alreadyEnqueuedKeys) > 0) {
