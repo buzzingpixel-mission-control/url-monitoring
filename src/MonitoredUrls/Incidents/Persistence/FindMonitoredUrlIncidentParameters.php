@@ -59,6 +59,13 @@ readonly class FindMonitoredUrlIncidentParameters extends FetchParameters
         );
     }
 
+    public function withMonitoredUrlIdOrPlaceholder(string|null $value): static
+    {
+        return $this->withMonitoredUrlId(
+            $value ?? '7ecd8ab0-4404-4fd0-841f-619a62ded489',
+        );
+    }
+
     public function withNotMonitoredUrlId(string $value): static
     {
         $values = $this->notMonitoredUrlIds ?? new StringCollection();

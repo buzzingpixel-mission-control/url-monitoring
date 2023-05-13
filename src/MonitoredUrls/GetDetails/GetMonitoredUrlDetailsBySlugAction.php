@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace MissionControlUrlMonitoring\MonitoredUrls\GetDetails;
 
 use MissionControlBackend\Http\ApplyRoutesEvent;
+use MissionControlBackend\Persistence\Sort;
 use MissionControlIdp\Authorize\ResourceServerMiddlewareWrapper;
+use MissionControlUrlMonitoring\MonitoredUrls\Incidents\MonitoredUrlIncidentRepository;
+use MissionControlUrlMonitoring\MonitoredUrls\Incidents\Persistence\FindMonitoredUrlIncidentParameters;
 use MissionControlUrlMonitoring\MonitoredUrls\MonitoredUrlRepository;
 use MissionControlUrlMonitoring\MonitoredUrls\Persistence\FindMonitoredUrlParameters;
 use Psr\Http\Message\ResponseInterface;
@@ -23,8 +26,9 @@ readonly class GetMonitoredUrlDetailsBySlugAction
     }
 
     public function __construct(
-        private MonitoredUrlRepository $repository,
+        private MonitoredUrlRepository $urlRepository,
         private GetMonitoredUrlResponderFactory $responderFactory,
+        private MonitoredUrlIncidentRepository $incidentRepository,
     ) {
     }
 
@@ -36,16 +40,27 @@ readonly class GetMonitoredUrlDetailsBySlugAction
 
         assert(is_string($slug));
 
-        $monitoredUrl = $this->repository->findOneOrNull(
+        $monitoredUrl = $this->urlRepository->findOneOrNull(
             FindMonitoredUrlParameters::create()->withSlug(
                 $slug,
             ),
+        );
+
+        $incidents = $this->incidentRepository->findAll(
+            (new FindMonitoredUrlIncidentParameters())
+                ->withMonitoredUrlIdOrPlaceholder(
+                    $monitoredUrl?->id->toNative(),
+                )
+                ->withLimit(100)
+                ->withOrderBy('event_at')
+                ->withSort(Sort::DESC),
         );
 
         return $this->responderFactory->createResponder(
             $request,
             $response,
             $monitoredUrl,
+            $incidents,
         )->respond();
     }
 }

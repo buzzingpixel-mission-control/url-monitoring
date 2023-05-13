@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MissionControlUrlMonitoring\MonitoredUrls\GetDetails;
 
+use MissionControlUrlMonitoring\MonitoredUrls\Incidents\MonitoredUrlIncidentCollection;
 use MissionControlUrlMonitoring\MonitoredUrls\MonitoredUrl;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,6 +15,7 @@ class GetMonitoredUrlResponderFactory
         ServerRequestInterface $request,
         ResponseInterface $response,
         MonitoredUrl|null $monitoredUrl,
+        MonitoredUrlIncidentCollection $incidents,
     ): GetMonitoredUrlResponder {
         if ($monitoredUrl === null) {
             return new GetMonitoredUrlResponderNotFound(
@@ -24,6 +26,7 @@ class GetMonitoredUrlResponderFactory
         return new GetMonitoredUrlResponderFound(
             $monitoredUrl,
             $response,
+            $incidents,
         );
     }
 }
