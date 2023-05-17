@@ -5,21 +5,22 @@ import {
     useApiQueryWithSignInRedirect,
 } from 'buzzingpixel-mission-control-frontend-core';
 import {
-    MonitoredUrl, MonitoredUrlSchema, MonitoredUrlWithViewOptions, transformMonitoredUrl,
-} from '../MonitoredUrls';
+    MonitoredUrlWithIncidents, MonitoredUrlWithIncidentsIntermediate,
+    MonitoredUrlWithIncidentsSchema, transformMonitoredUrlWithIncidents,
+} from './MonitoredUrlWithIncidents';
 
 // eslint-disable-next-line import/prefer-default-export
 export const useMonitoredUrlDetailsData = (slug: string): {
     status: 'loading' | 'error' | 'success';
-    data?: MonitoredUrlWithViewOptions;
+    data?: MonitoredUrlWithIncidents;
 } => {
     const uri = `/monitored-urls/${slug}`;
 
-    const response = useApiQueryWithSignInRedirect<MonitoredUrl>(
+    const response = useApiQueryWithSignInRedirect<MonitoredUrlWithIncidentsIntermediate>(
         [uri],
         { uri },
         {
-            zodValidator: MonitoredUrlSchema,
+            zodValidator: MonitoredUrlWithIncidentsSchema,
             staleTime: MinutesToMilliseconds(1),
             refetchInterval: MinutesToMilliseconds(1),
         },
@@ -41,6 +42,9 @@ export const useMonitoredUrlDetailsData = (slug: string): {
 
     return {
         status: 'success',
-        data: transformMonitoredUrl(response.data, projects.data),
+        data: transformMonitoredUrlWithIncidents(
+            response.data,
+            projects.data,
+        ),
     };
 };

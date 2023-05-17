@@ -1,5 +1,5 @@
-import { MonitoredUrlWithViewOptions } from '../MonitoredUrls';
+import { MonitoredUrlWithIncidents } from './MonitoredUrlWithIncidents';
 export declare const useMonitoredUrlDetailsData: (slug: string) => {
     status: 'loading' | 'error' | 'success';
-    data?: MonitoredUrlWithViewOptions;
+    data?: MonitoredUrlWithIncidents;
 };
