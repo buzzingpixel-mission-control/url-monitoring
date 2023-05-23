@@ -47,6 +47,7 @@ readonly class CheckNotificationsJobSendReminders
         $downUrls->map(function (MonitoredUrl $url): void {
             $findIncidentParameters = (new FindMonitoredUrlIncidentParameters())
                 // Get the most recent event only
+                ->withMonitoredUrlId($url->id->toNative())
                 ->withOrderBy('event_at')
                 ->withSort(Sort::DESC);
 
