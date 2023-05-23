@@ -34,6 +34,7 @@ var PageHeader_1 = __importDefault(require("./PageHeader"));
 var Incidents_1 = __importDefault(require("./Incidents"));
 var MonitoredUrlDetailsPage = function () {
     var slug = (0, react_router_dom_1.useParams)().slug;
+    var searchParams = (0, react_router_dom_1.useSearchParams)()[0];
     (0, buzzingpixel_mission_control_frontend_core_1.useHidePageTitle)(true);
     var _a = (0, react_1.useState)('Loading Monitored URL Details…'), pageNameState = _a[0], setPageNameState = _a[1];
     var _b = (0, react_1.useState)(false), isArchive = _b[0], setIsArchive = _b[1];
@@ -59,8 +60,9 @@ var MonitoredUrlDetailsPage = function () {
     if (isArchive !== !data.isActive) {
         setIsArchive(true);
     }
+    var fromProjectPageSlug = searchParams.get('fromProjectPageSlug');
     return (react_1.default.createElement(react_1.default.Fragment, null,
-        react_1.default.createElement(PageHeader_1.default, { data: data }),
+        react_1.default.createElement(PageHeader_1.default, { data: data, fromProjectPageSlug: fromProjectPageSlug }),
         react_1.default.createElement(Incidents_1.default, { incidents: data.incidents })));
 };
 exports.default = MonitoredUrlDetailsPage;

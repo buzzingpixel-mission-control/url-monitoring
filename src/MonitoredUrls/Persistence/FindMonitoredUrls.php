@@ -6,6 +6,7 @@ namespace MissionControlUrlMonitoring\MonitoredUrls\Persistence;
 
 use MissionControlBackend\Persistence\MissionControlPdo;
 use PDO;
+use PDOException;
 
 readonly class FindMonitoredUrls
 {
@@ -36,21 +37,27 @@ readonly class FindMonitoredUrls
     public function findAll(
         FindMonitoredUrlParameters|null $parameters = null,
     ): MonitoredUrlRecordCollection {
-        $parameters ??= new FindMonitoredUrlParameters();
+        try {
+            $parameters ??= new FindMonitoredUrlParameters();
 
-        $customQuery = $parameters->buildQuery();
+            $customQuery = $parameters->buildQuery();
 
-        $statement = $this->pdo->prepare($customQuery->query);
+            $statement = $this->pdo->prepare($customQuery->query);
 
-        $statement->execute($customQuery->params);
+            $statement->execute($customQuery->params);
 
-        $results = $statement->fetchAll(
-            PDO::FETCH_CLASS,
-            MonitoredUrlRecord::class,
-        );
+            $results = $statement->fetchAll(
+                PDO::FETCH_CLASS,
+                MonitoredUrlRecord::class,
+            );
 
-        return new MonitoredUrlRecordCollection(
-            $results !== false ? $results : [],
-        );
+            return new MonitoredUrlRecordCollection(
+                $results !== false ? $results : [],
+            );
+        } catch (PDOException) {
+            // Annoyingly, an invalidly formatted UUID will cause a PDO
+            // exception
+            return new MonitoredUrlRecordCollection();
+        }
     }
 }

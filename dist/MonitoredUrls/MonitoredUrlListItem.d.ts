@@ -1,7 +1,13 @@
 /// <reference types="react" />
 import { MonitoredUrlWithViewOptions } from './MonitoredUrls';
-declare const MonitoredUrlListItem: ({ isArchive, item, }: {
-    isArchive: boolean;
-    item: MonitoredUrlWithViewOptions;
-}) => JSX.Element;
+declare const MonitoredUrlListItem: {
+    ({ isArchive, item, projectPageSlug, }: {
+        isArchive: boolean;
+        item: MonitoredUrlWithViewOptions;
+        projectPageSlug?: string | null | undefined;
+    }): JSX.Element;
+    defaultProps: {
+        projectPageSlug: any;
+    };
+};
 export default MonitoredUrlListItem;

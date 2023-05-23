@@ -21,8 +21,10 @@ function classNames (...classes) {
 
 const PageHeader = ({
     data,
+    fromProjectPageSlug,
 }: {
     data: MonitoredUrlWithIncidents;
+    fromProjectPageSlug?: string | undefined | null;
 }) => (
     <div className="mb-8">
         <div className="border-b border-gray-200 pb-4">
@@ -33,6 +35,20 @@ const PageHeader = ({
                       but preserve the same layout if the text wraps without making the image jump around.
                     */}
                     <div className="pt-1.5">
+                        {(() => {
+                            if (!fromProjectPageSlug) {
+                                return null;
+                            }
+
+                            return (
+                                <Link
+                                    to={`/projects/${fromProjectPageSlug}`}
+                                    className="relative inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 mb-2"
+                                >
+                                    &larr; Back to Project
+                                </Link>
+                            );
+                        })()}
                         <h1 className="text-2xl font-bold text-gray-900">
                             {data.title}
                         </h1>
@@ -98,5 +114,9 @@ const PageHeader = ({
         </div>
     </div>
 );
+
+PageHeader.defaultProps = {
+    fromProjectPageSlug: undefined,
+};
 
 export default PageHeader;

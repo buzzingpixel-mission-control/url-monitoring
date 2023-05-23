@@ -146,15 +146,24 @@ export const useEditMonitoredUrlMutation = (urlId: string, slug: string) => {
 export const useArchiveMonitoredUrlMutation = (
     urlId: string,
     isArchive: boolean,
+    projectId?: string | undefined | null,
 ) => {
     const queryClient = useQueryClient();
 
+    const invalidateQueryKeysOnSuccess = [
+        '/monitored-urls/list',
+        '/monitored-urls/list/archived',
+    ];
+
+    if (projectId) {
+        invalidateQueryKeysOnSuccess.push(
+            `/monitored-urls/list/project/${projectId}`,
+        );
+    }
+
     return useApiMutation(
         {
-            invalidateQueryKeysOnSuccess: [
-                '/monitored-urls/list',
-                '/monitored-urls/list/archived',
-            ],
+            invalidateQueryKeysOnSuccess,
             prepareApiParams: () => ({
                 uri: `/monitored-urls/${isArchive ? 'un-archive' : 'archive'}/${urlId}`,
                 method: RequestMethod.PATCH,

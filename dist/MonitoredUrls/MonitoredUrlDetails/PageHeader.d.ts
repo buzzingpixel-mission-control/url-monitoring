@@ -1,6 +1,12 @@
 /// <reference types="react" />
 import { MonitoredUrlWithIncidents } from './MonitoredUrlWithIncidents';
-declare const PageHeader: ({ data, }: {
-    data: MonitoredUrlWithIncidents;
-}) => JSX.Element;
+declare const PageHeader: {
+    ({ data, fromProjectPageSlug, }: {
+        data: MonitoredUrlWithIncidents;
+        fromProjectPageSlug?: string | undefined | null;
+    }): JSX.Element;
+    defaultProps: {
+        fromProjectPageSlug: any;
+    };
+};
 export default PageHeader;

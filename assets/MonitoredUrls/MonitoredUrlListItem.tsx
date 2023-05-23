@@ -26,9 +26,11 @@ const MonitoredUrlListItem = (
     {
         isArchive,
         item,
+        projectPageSlug,
     }: {
         isArchive: boolean;
         item: MonitoredUrlWithViewOptions;
+        projectPageSlug?: string | null | undefined;
     },
 ) => {
     const [
@@ -39,7 +41,14 @@ const MonitoredUrlListItem = (
     const archiveMutation = useArchiveMonitoredUrlMutation(
         item.id,
         isArchive,
+        item.projectId,
     );
+
+    let viewDetailsLink = item.href;
+
+    if (projectPageSlug) {
+        viewDetailsLink += `?fromProjectPageSlug=${projectPageSlug}`;
+    }
 
     return (
         <li>
@@ -74,7 +83,7 @@ const MonitoredUrlListItem = (
                             );
                         })()}
                         {(() => {
-                            if (!item.project) {
+                            if (!item.project || projectPageSlug) {
                                 return null;
                             }
 
@@ -114,7 +123,7 @@ const MonitoredUrlListItem = (
                 </div>
                 <div className="mt-2 sm:mt-0 flex flex-none items-center gap-x-4">
                     <Link
-                        to={item.href}
+                        to={viewDetailsLink}
                         className="block rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                     >
                         View Details
@@ -197,6 +206,10 @@ const MonitoredUrlListItem = (
             })()}
         </li>
     );
+};
+
+MonitoredUrlListItem.defaultProps = {
+    projectPageSlug: undefined,
 };
 
 export default MonitoredUrlListItem;

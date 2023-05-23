@@ -50,9 +50,13 @@ function classNames() {
     return classes.filter(Boolean).join(' ');
 }
 var MonitoredUrlListItem = function (_a) {
-    var isArchive = _a.isArchive, item = _a.item;
+    var isArchive = _a.isArchive, item = _a.item, projectPageSlug = _a.projectPageSlug;
     var _b = (0, react_1.useState)(false), editIsOpen = _b[0], setEditIsOpen = _b[1];
-    var archiveMutation = (0, MonitoredUrlData_1.useArchiveMonitoredUrlMutation)(item.id, isArchive);
+    var archiveMutation = (0, MonitoredUrlData_1.useArchiveMonitoredUrlMutation)(item.id, isArchive, item.projectId);
+    var viewDetailsLink = item.href;
+    if (projectPageSlug) {
+        viewDetailsLink += "?fromProjectPageSlug=".concat(projectPageSlug);
+    }
     return (react_1.default.createElement("li", null,
         react_1.default.createElement("div", { className: "sm:flex items-center justify-between gap-x-6 py-5" },
             react_1.default.createElement("div", { className: "min-w-0" },
@@ -66,7 +70,7 @@ var MonitoredUrlListItem = function (_a) {
                         return (react_1.default.createElement("p", { className: classNames(statuses[item.statusReadable], 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') }, item.statusReadable));
                     })(),
                     (function () {
-                        if (!item.project) {
+                        if (!item.project || projectPageSlug) {
                             return null;
                         }
                         return (react_1.default.createElement(react_router_dom_1.Link, { to: item.project.href, className: classNames('text-cyan-700 bg-cyan-50 ring-cyan-600/20 hover:bg-cyan-100 hover:text-cyan-800', 'rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset') },
@@ -83,7 +87,7 @@ var MonitoredUrlListItem = function (_a) {
                         ' ',
                         item.createdAtDate.toLocaleDateString()))),
             react_1.default.createElement("div", { className: "mt-2 sm:mt-0 flex flex-none items-center gap-x-4" },
-                react_1.default.createElement(react_router_dom_1.Link, { to: item.href, className: "block rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" },
+                react_1.default.createElement(react_router_dom_1.Link, { to: viewDetailsLink, className: "block rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" },
                     "View Details",
                     react_1.default.createElement("span", { className: "sr-only" },
                         ",",
@@ -120,5 +124,8 @@ var MonitoredUrlListItem = function (_a) {
             }
             return (react_1.default.createElement(MonitoredUrlListItemEditor_1.default, { item: item, setEditorIsOpen: setEditIsOpen }));
         })()));
+};
+MonitoredUrlListItem.defaultProps = {
+    projectPageSlug: undefined,
 };
 exports.default = MonitoredUrlListItem;

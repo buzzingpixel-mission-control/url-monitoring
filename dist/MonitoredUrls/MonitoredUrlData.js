@@ -140,13 +140,17 @@ var useEditMonitoredUrlMutation = function (urlId, slug) {
     });
 };
 exports.useEditMonitoredUrlMutation = useEditMonitoredUrlMutation;
-var useArchiveMonitoredUrlMutation = function (urlId, isArchive) {
+var useArchiveMonitoredUrlMutation = function (urlId, isArchive, projectId) {
     var queryClient = (0, react_query_1.useQueryClient)();
+    var invalidateQueryKeysOnSuccess = [
+        '/monitored-urls/list',
+        '/monitored-urls/list/archived',
+    ];
+    if (projectId) {
+        invalidateQueryKeysOnSuccess.push("/monitored-urls/list/project/".concat(projectId));
+    }
     return (0, buzzingpixel_mission_control_frontend_core_1.useApiMutation)({
-        invalidateQueryKeysOnSuccess: [
-            '/monitored-urls/list',
-            '/monitored-urls/list/archived',
-        ],
+        invalidateQueryKeysOnSuccess: invalidateQueryKeysOnSuccess,
         prepareApiParams: function () { return ({
             uri: "/monitored-urls/".concat(isArchive ? 'un-archive' : 'archive', "/").concat(urlId),
             method: buzzingpixel_mission_control_frontend_core_1.RequestMethod.PATCH,

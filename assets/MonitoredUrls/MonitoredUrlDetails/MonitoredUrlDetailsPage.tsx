@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import {
     PartialPageLoading,
     useBreadcrumbs,
@@ -12,6 +12,8 @@ import Incidents from './Incidents';
 
 const MonitoredUrlDetailsPage = () => {
     const { slug } = useParams();
+
+    const [searchParams] = useSearchParams();
 
     useHidePageTitle(true);
 
@@ -59,9 +61,11 @@ const MonitoredUrlDetailsPage = () => {
         setIsArchive(true);
     }
 
+    const fromProjectPageSlug = searchParams.get('fromProjectPageSlug');
+
     return (
         <>
-            <PageHeader data={data} />
+            <PageHeader data={data} fromProjectPageSlug={fromProjectPageSlug} />
             <Incidents incidents={data.incidents} />
         </>
     );

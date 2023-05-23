@@ -24,12 +24,18 @@ function classNames() {
     return classes.filter(Boolean).join(' ');
 }
 var PageHeader = function (_a) {
-    var data = _a.data;
+    var data = _a.data, fromProjectPageSlug = _a.fromProjectPageSlug;
     return (react_1.default.createElement("div", { className: "mb-8" },
         react_1.default.createElement("div", { className: "border-b border-gray-200 pb-4" },
             react_1.default.createElement("div", { className: "md:flex md:items-center md:justify-between md:space-x-5" },
                 react_1.default.createElement("div", { className: "flex items-start space-x-5 overflow-hidden" },
                     react_1.default.createElement("div", { className: "pt-1.5" },
+                        (function () {
+                            if (!fromProjectPageSlug) {
+                                return null;
+                            }
+                            return (react_1.default.createElement(react_router_dom_1.Link, { to: "/projects/".concat(fromProjectPageSlug), className: "relative inline-flex items-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 mb-2" }, "\u2190 Back to Project"));
+                        })(),
                         react_1.default.createElement("h1", { className: "text-2xl font-bold text-gray-900" }, data.title),
                         react_1.default.createElement("div", { className: "flex items-start gap-x-3" },
                             react_1.default.createElement("a", { href: data.url, className: "underline font-medium text-sm text-cyan-600 hover:text-cyan-500", target: "_blank", rel: "noreferrer" }, data.url),
@@ -51,5 +57,8 @@ var PageHeader = function (_a) {
                             })()))),
                 react_1.default.createElement("div", { className: "mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-3 sm:space-y-0 sm:space-x-reverse md:mt-0 md:flex-row md:space-x-3" },
                     react_1.default.createElement(MonitoredUrlEditButton_1.default, { item: data }))))));
+};
+PageHeader.defaultProps = {
+    fromProjectPageSlug: undefined,
 };
 exports.default = PageHeader;

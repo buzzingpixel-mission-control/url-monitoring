@@ -9,7 +9,7 @@ import { GlobeAltIcon } from '@heroicons/react/20/solid';
 import { useMonitoredUrlData } from './MonitoredUrlData';
 import MonitoredUrlTabs from './MonitoredUrlTabs';
 import AddMonitoredUrlOverlay from './AddMonitoredUrlOverlay';
-import { monitoredUrlStatusList, transformMonitoredUrls } from './MonitoredUrls';
+import { monitoredUrlStatusList } from './MonitoredUrls';
 import MonitoredUrlList from './MonitoredUrlList';
 import useQuickStatusFilter from './useQuickStatusFilter';
 import useFilterText from './useFilterText';
