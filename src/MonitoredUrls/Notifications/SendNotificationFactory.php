@@ -23,7 +23,9 @@ readonly class SendNotificationFactory
     {
         $previousIncident = $this->repository->findOneOrNull(
             (new FindMonitoredUrlIncidentParameters())
-                ->withMonitoredUrlId($incident->id->toNative())
+                ->withMonitoredUrlId(
+                    $incident->monitoredUrlId->toNative(),
+                )
                 ->withLastNotificationIsNotNull(),
         );
 
