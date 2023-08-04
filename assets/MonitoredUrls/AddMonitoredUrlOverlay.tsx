@@ -1,8 +1,10 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
-    EditorShellFloating, EditorShellForm,
-    FormInput, FormInputProjects,
+    EditorShellFloating,
+    EditorShellForm,
+    FormInput,
+    FormInputProjects,
     FormInputText,
 } from 'buzzingpixel-mission-control-frontend-core';
 import AddMonitoredUrlFormValues from './AddMonitoredUrlFormValues';

@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { MonitoredUrlsWithViewOptions } from './MonitoredUrls';
 declare const MonitoredUrlList: ({ isArchive, items, }: {
     isArchive: boolean;

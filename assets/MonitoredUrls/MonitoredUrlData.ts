@@ -1,8 +1,9 @@
 import {
-    useApiQueryWithSignInRedirect,
     MinutesToMilliseconds,
+    RequestMethod,
     useApiMutation,
-    RequestMethod, useAllProjectsData,
+    useAllProjectsData,
+    useApiQueryWithSignInRedirect,
 } from 'buzzingpixel-mission-control-frontend-core';
 import { useQueryClient } from '@tanstack/react-query';
 import {
@@ -60,9 +61,7 @@ export const useAddMonitoredUrlMutation = () => useApiMutation<unknown, AddMonit
             '/monitored-urls/list',
             '/monitored-urls/list/archived',
         ],
-        prepareApiParams: (
-            data,
-        ) => ({
+        prepareApiParams: (data) => ({
             uri: '/monitored-urls/add',
             payload: data,
             method: RequestMethod.POST,

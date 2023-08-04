@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { Incident } from './MonitoredUrlWithIncidents';
 declare const Incidents: ({ incidents, }: {
     incidents: Array<Incident>;

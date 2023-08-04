@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { MonitoredUrlWithIncidents } from './MonitoredUrlWithIncidents';
 declare const PageHeader: {
     ({ data, fromProjectPageSlug, }: {

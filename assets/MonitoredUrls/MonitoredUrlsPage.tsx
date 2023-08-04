@@ -194,10 +194,7 @@ const MonitoredUrlsPage = (
                         />
                     </div>
                 </div>
-                <MonitoredUrlList
-                    isArchive={isArchive}
-                    items={urls}
-                />
+                <MonitoredUrlList isArchive={isArchive} items={urls} />
             </div>
         </>
     );

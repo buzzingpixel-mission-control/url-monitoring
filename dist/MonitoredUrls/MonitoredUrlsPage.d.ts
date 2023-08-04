@@ -1,4 +1,3 @@
-/// <reference types="react" />
 declare const MonitoredUrlsPage: {
     ({ isArchive, }: {
         isArchive?: boolean;

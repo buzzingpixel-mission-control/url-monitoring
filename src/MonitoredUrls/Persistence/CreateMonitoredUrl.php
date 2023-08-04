@@ -80,13 +80,13 @@ readonly class CreateMonitoredUrl
             $errors[] = $exception->getMessage();
         }
 
-        $existingProject = $this->findMonitoredUrls->findOneOrNull(
+        $existingUrl = $this->findMonitoredUrls->findOneOrNull(
             (new FindMonitoredUrlParameters())->withSlug(
                 $record->slug,
             ),
         );
 
-        if ($existingProject !== null) {
+        if ($existingUrl !== null) {
             $errors[] = 'Slug must be unique';
         }
 
