@@ -15,7 +15,7 @@ const statusClasses = {
     Down: 'text-red-700 bg-red-50 ring-red-600/20',
 };
 
-function classNames (...classes) {
+function classNames (...classes: Array<string>) {
     return classes.filter(Boolean).join(' ');
 }
 

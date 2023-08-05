@@ -36,7 +36,7 @@ export const useMonitoredUrlDetailsData = (slug: string): {
 
     if (response.status === 'error' || projects.status === 'error') {
         return {
-            status: 'loading',
+            status: 'error',
         };
     }
 
