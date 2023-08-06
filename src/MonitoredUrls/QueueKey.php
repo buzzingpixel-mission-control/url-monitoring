@@ -22,10 +22,6 @@ readonly class QueueKey
 
     public function getKey(string $key = ''): string
     {
-        /**
-         * First make sure the url queue is clear. We don't want to outrun
-         * the available processing power
-         */
         $queueName = $this->config->queueName;
 
         $redisNamespaceProperty = new ReflectionProperty(
@@ -36,7 +32,9 @@ readonly class QueueKey
         /** @noinspection PhpExpressionResultUnusedInspection */
         $redisNamespaceProperty->setAccessible(true);
 
-        $namespace = $redisNamespaceProperty->getValue($this->cachePool);
+        $namespace = $redisNamespaceProperty->getValue(
+            $this->cachePool,
+        );
 
         $namespace = is_string($namespace) ? $namespace : '';
 
