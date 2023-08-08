@@ -50,12 +50,16 @@ function classNames() {
     return classes.filter(Boolean).join(' ');
 }
 var MonitoredUrlListItem = function (_a) {
-    var isArchive = _a.isArchive, item = _a.item, projectPageSlug = _a.projectPageSlug;
+    var isArchive = _a.isArchive, item = _a.item, projectPageSlug = _a.projectPageSlug, selectedItemsManager = _a.selectedItemsManager;
     var _b = (0, react_1.useState)(false), editIsOpen = _b[0], setEditIsOpen = _b[1];
     var archiveMutation = (0, MonitoredUrlData_1.useArchiveMonitoredUrlMutation)(item.id, isArchive, item.projectId);
     var viewDetailsLink = item.href;
     if (projectPageSlug) {
         viewDetailsLink += "?fromProjectPageSlug=".concat(projectPageSlug);
+    }
+    var isSelected = false;
+    if ((selectedItemsManager === null || selectedItemsManager === void 0 ? void 0 : selectedItemsManager.selectedItems.indexOf(item.id)) > -1) {
+        isSelected = true;
     }
     return (react_1.default.createElement("li", null,
         react_1.default.createElement("div", { className: "sm:flex items-center justify-between gap-x-6 py-5" },
@@ -117,7 +121,19 @@ var MonitoredUrlListItem = function (_a) {
                                     react_1.default.createElement("span", { className: "sr-only" },
                                         ",",
                                         item.title)));
-                            })))))),
+                            })))),
+                (function () {
+                    if (!selectedItemsManager) {
+                        return null;
+                    }
+                    return (react_1.default.createElement("input", { id: "select_".concat(item.id), name: "select[]", type: "checkbox", className: "h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-600", checked: isSelected, onChange: function (e) {
+                            if (e.currentTarget.checked) {
+                                selectedItemsManager.addSelectedItem(item.id);
+                                return;
+                            }
+                            selectedItemsManager.removeSelectedItem(item.id);
+                        } }));
+                })())),
         (function () {
             if (!editIsOpen) {
                 return null;
@@ -127,5 +143,6 @@ var MonitoredUrlListItem = function (_a) {
 };
 MonitoredUrlListItem.defaultProps = {
     projectPageSlug: undefined,
+    selectedItemsManager: undefined,
 };
 exports.default = MonitoredUrlListItem;

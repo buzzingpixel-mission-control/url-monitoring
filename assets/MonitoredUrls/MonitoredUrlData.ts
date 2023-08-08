@@ -218,3 +218,40 @@ export const useArchiveMonitoredUrlMutation = (
         },
     );
 };
+
+export const useArchiveSelectedMonitoredUrlsMutation = (
+    urls: MonitoredUrls,
+    isArchive: boolean,
+) => {
+    const urlIds = urls.map((url) => url.id);
+
+    const invalidateQueryKeysOnSuccess = [
+        '/monitored-urls/list',
+        '/monitored-urls/list/archived',
+    ];
+
+    urls.forEach((url) => {
+        invalidateQueryKeysOnSuccess.push(`/monitored-urls/${url.slug}`);
+
+        if (!url.projectId) {
+            return;
+        }
+
+        const projectListingUrl = `/monitored-urls/list/project/${url.projectId}`;
+
+        if (invalidateQueryKeysOnSuccess.indexOf(projectListingUrl) > -1) {
+            return;
+        }
+
+        invalidateQueryKeysOnSuccess.push(projectListingUrl);
+    });
+
+    return useApiMutation({
+        invalidateQueryKeysOnSuccess,
+        prepareApiParams: () => ({
+            uri: `/monitored-urls/${isArchive ? 'un-archive' : 'archive'}`,
+            method: RequestMethod.PATCH,
+            payload: { urlIds },
+        }),
+    });
+};

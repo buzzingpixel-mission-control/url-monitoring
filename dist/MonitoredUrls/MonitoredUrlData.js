@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.useArchiveMonitoredUrlMutation = exports.useEditMonitoredUrlMutation = exports.useAddMonitoredUrlMutation = exports.useMonitoredUrlData = void 0;
+exports.useArchiveSelectedMonitoredUrlsMutation = exports.useArchiveMonitoredUrlMutation = exports.useEditMonitoredUrlMutation = exports.useAddMonitoredUrlMutation = exports.useMonitoredUrlData = void 0;
 var buzzingpixel_mission_control_frontend_core_1 = require("buzzingpixel-mission-control-frontend-core");
 var react_query_1 = require("@tanstack/react-query");
 var MonitoredUrls_1 = require("./MonitoredUrls");
@@ -197,3 +197,30 @@ var useArchiveMonitoredUrlMutation = function (urlId, isArchive, projectId) {
     });
 };
 exports.useArchiveMonitoredUrlMutation = useArchiveMonitoredUrlMutation;
+var useArchiveSelectedMonitoredUrlsMutation = function (urls, isArchive) {
+    var urlIds = urls.map(function (url) { return url.id; });
+    var invalidateQueryKeysOnSuccess = [
+        '/monitored-urls/list',
+        '/monitored-urls/list/archived',
+    ];
+    urls.forEach(function (url) {
+        invalidateQueryKeysOnSuccess.push("/monitored-urls/".concat(url.slug));
+        if (!url.projectId) {
+            return;
+        }
+        var projectListingUrl = "/monitored-urls/list/project/".concat(url.projectId);
+        if (invalidateQueryKeysOnSuccess.indexOf(projectListingUrl) > -1) {
+            return;
+        }
+        invalidateQueryKeysOnSuccess.push(projectListingUrl);
+    });
+    return (0, buzzingpixel_mission_control_frontend_core_1.useApiMutation)({
+        invalidateQueryKeysOnSuccess: invalidateQueryKeysOnSuccess,
+        prepareApiParams: function () { return ({
+            uri: "/monitored-urls/".concat(isArchive ? 'un-archive' : 'archive'),
+            method: buzzingpixel_mission_control_frontend_core_1.RequestMethod.PATCH,
+            payload: { urlIds: urlIds },
+        }); },
+    });
+};
+exports.useArchiveSelectedMonitoredUrlsMutation = useArchiveSelectedMonitoredUrlsMutation;

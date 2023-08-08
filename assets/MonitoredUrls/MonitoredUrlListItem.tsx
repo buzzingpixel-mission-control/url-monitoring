@@ -27,10 +27,16 @@ const MonitoredUrlListItem = (
         isArchive,
         item,
         projectPageSlug,
+        selectedItemsManager,
     }: {
         isArchive: boolean;
         item: MonitoredUrlWithViewOptions;
         projectPageSlug?: string | null | undefined;
+        selectedItemsManager?: undefined | null | {
+            selectedItems?: Array<string> | null | undefined;
+            addSelectedItem?: (id: string) => void;
+            removeSelectedItem?: (id: string) => void;
+        };
     },
 ) => {
     const [
@@ -48,6 +54,12 @@ const MonitoredUrlListItem = (
 
     if (projectPageSlug) {
         viewDetailsLink += `?fromProjectPageSlug=${projectPageSlug}`;
+    }
+
+    let isSelected = false;
+
+    if (selectedItemsManager?.selectedItems.indexOf(item.id) > -1) {
+        isSelected = true;
     }
 
     return (
@@ -190,6 +202,34 @@ const MonitoredUrlListItem = (
                             </Menu.Items>
                         </Transition>
                     </Menu>
+                    {(() => {
+                        if (!selectedItemsManager) {
+                            return null;
+                        }
+
+                        return (
+                            <input
+                                id={`select_${item.id}`}
+                                name="select[]"
+                                type="checkbox"
+                                className="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-600"
+                                checked={isSelected}
+                                onChange={(e) => {
+                                    if (e.currentTarget.checked) {
+                                        selectedItemsManager.addSelectedItem(
+                                            item.id,
+                                        );
+
+                                        return;
+                                    }
+
+                                    selectedItemsManager.removeSelectedItem(
+                                        item.id,
+                                    );
+                                }}
+                            />
+                        );
+                    })()}
                 </div>
             </div>
             {(() => {
@@ -210,6 +250,7 @@ const MonitoredUrlListItem = (
 
 MonitoredUrlListItem.defaultProps = {
     projectPageSlug: undefined,
+    selectedItemsManager: undefined,
 };
 
 export default MonitoredUrlListItem;

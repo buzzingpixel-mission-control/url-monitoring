@@ -1,12 +1,18 @@
 import { MonitoredUrlWithViewOptions } from './MonitoredUrls';
 declare const MonitoredUrlListItem: {
-    ({ isArchive, item, projectPageSlug, }: {
+    ({ isArchive, item, projectPageSlug, selectedItemsManager, }: {
         isArchive: boolean;
         item: MonitoredUrlWithViewOptions;
         projectPageSlug?: string | null | undefined;
+        selectedItemsManager?: {
+            selectedItems?: Array<string> | null | undefined;
+            addSelectedItem?: (id: string) => void;
+            removeSelectedItem?: (id: string) => void;
+        };
     }): JSX.Element;
     defaultProps: {
         projectPageSlug: any;
+        selectedItemsManager: any;
     };
 };
 export default MonitoredUrlListItem;

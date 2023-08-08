@@ -13,6 +13,8 @@ use MissionControlUrlMonitoring\MonitoredUrls\GetDetails\GetMonitoredUrlDetailsB
 use MissionControlUrlMonitoring\MonitoredUrls\GetMonitoredUrlsListAction;
 use MissionControlUrlMonitoring\MonitoredUrls\GetMonitoredUrlsListArchivedAction;
 use MissionControlUrlMonitoring\MonitoredUrls\GetMonitoredUrlsListForProjectAction;
+use MissionControlUrlMonitoring\MonitoredUrls\PatchMonitoredUrlsArchiveAction;
+use MissionControlUrlMonitoring\MonitoredUrls\PatchMonitoredUrlsUnArchiveAction;
 
 class Routing
 {
@@ -23,6 +25,8 @@ class Routing
         GetMonitoredUrlsListForProjectAction::registerRoute($event);
         PostAddMonitoredUrlAction::registerRoute($event);
         PatchEditMonitoredUrlAction::registerRoute($event);
+        PatchMonitoredUrlsArchiveAction::registerRoute($event);
+        PatchMonitoredUrlsUnArchiveAction::registerRoute($event);
         PatchArchiveMonitoredUrlAction::registerRoute($event);
         PatchUnArchiveMonitoredUrlAction::registerRoute($event);
         GetMonitoredUrlDetailsBySlugAction::registerRoute($event);
