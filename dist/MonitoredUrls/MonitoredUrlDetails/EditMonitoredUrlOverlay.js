@@ -77,7 +77,7 @@ var EditMonitoredUrlOverlay = function (_a) {
             },
         });
     };
-    return (react_1.default.createElement(buzzingpixel_mission_control_frontend_core_1.EditorShellFloating, { title: "Add New Monitored URL", isSaving: isSaving, submitButtonText: "Submit", errorMessage: errorMessage, saveHandler: function () {
+    return (react_1.default.createElement(buzzingpixel_mission_control_frontend_core_1.EditorShellFloating, { title: "Edit Monitored URL", isSaving: isSaving, submitButtonText: "Submit", errorMessage: errorMessage, saveHandler: function () {
             saveHandler(getValues());
         }, setEditorIsOpen: setIsOpen },
         react_1.default.createElement(buzzingpixel_mission_control_frontend_core_1.EditorShellForm, { inputs: inputs, register: register, onSubmit: function () {

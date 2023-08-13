@@ -92,7 +92,7 @@ const EditMonitoredUrlOverlay = (
 
     return (
         <EditorShellFloating
-            title="Add New Monitored URL"
+            title="Edit Monitored URL"
             isSaving={isSaving}
             submitButtonText="Submit"
             errorMessage={errorMessage}
