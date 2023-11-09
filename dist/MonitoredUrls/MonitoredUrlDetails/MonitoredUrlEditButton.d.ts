@@ -1,5 +1,6 @@
+import React from 'react';
 import { MonitoredUrl } from '../MonitoredUrls';
 declare const MonitoredUrlEditButton: ({ item, }: {
     item: MonitoredUrl;
-}) => JSX.Element;
+}) => React.JSX.Element;
 export default MonitoredUrlEditButton;

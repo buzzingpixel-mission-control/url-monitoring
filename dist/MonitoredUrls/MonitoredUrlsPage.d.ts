@@ -1,7 +1,8 @@
+import React from 'react';
 declare const MonitoredUrlsPage: {
     ({ isArchive, }: {
         isArchive?: boolean;
-    }): JSX.Element;
+    }): React.JSX.Element;
     defaultProps: {
         isArchive: boolean;
     };

@@ -19,7 +19,7 @@ var MonitoredUrlStatus;
     MonitoredUrlStatus["up"] = "up";
     MonitoredUrlStatus["pendingDown"] = "pendingDown";
     MonitoredUrlStatus["down"] = "down";
-})(MonitoredUrlStatus = exports.MonitoredUrlStatus || (exports.MonitoredUrlStatus = {}));
+})(MonitoredUrlStatus || (exports.MonitoredUrlStatus = MonitoredUrlStatus = {}));
 exports.monitoredUrlStatusList = [
     {
         name: 'All',

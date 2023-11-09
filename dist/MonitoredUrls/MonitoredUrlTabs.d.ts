@@ -1,9 +1,9 @@
-import { MouseEventHandler } from 'react';
+import React, { MouseEventHandler } from 'react';
 declare const MonitoredUrlTabs: {
     ({ activeHref, addUrlOnClick, }: {
         activeHref?: string;
         addUrlOnClick?: MouseEventHandler<HTMLButtonElement> | undefined;
-    }): JSX.Element;
+    }): React.JSX.Element;
     defaultProps: {
         activeHref: any;
         addUrlOnClick: any;

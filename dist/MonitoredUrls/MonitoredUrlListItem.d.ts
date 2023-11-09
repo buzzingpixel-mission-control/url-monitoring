@@ -1,3 +1,4 @@
+import React from 'react';
 import { MonitoredUrlWithViewOptions } from './MonitoredUrls';
 declare const MonitoredUrlListItem: {
     ({ isArchive, item, projectPageSlug, selectedItemsManager, }: {
@@ -9,7 +10,7 @@ declare const MonitoredUrlListItem: {
             addSelectedItem?: (id: string) => void;
             removeSelectedItem?: (id: string) => void;
         };
-    }): JSX.Element;
+    }): React.JSX.Element;
     defaultProps: {
         projectPageSlug: any;
         selectedItemsManager: any;
